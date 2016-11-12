@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Text;
 using System.Web.Http;
+using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
 
 namespace Octogami.ProviderDirectory.Web.Controllers.api
 {
 	public class HealthCheckController : ApiController
 	{
-		private readonly Func<Provider> _newProvider;
+		private readonly IMediator _mediator;
 
-		public HealthCheckController(Func<Provider> newProvider)
+		public HealthCheckController(IMediator mediator)
 		{
-			_newProvider = newProvider;
+			_mediator = mediator;
 		}
 
 		[Route("api/healthCheck")]
@@ -21,7 +22,7 @@ namespace Octogami.ProviderDirectory.Web.Controllers.api
 			try
 			{
 				builder.AppendLine("Testing StructureMap dependency resolution...");
-				var provider = _newProvider();
+				if(_mediator == null) throw new InvalidOperationException("Can't resolve mediator.");
 				builder.AppendLine("StructureMap dependency resolution passed.");
 			}
 			catch(Exception e)
