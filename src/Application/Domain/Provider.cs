@@ -1,12 +1,13 @@
 ﻿using System;
+using Marten.Schema;
 
 namespace Octogami.ProviderDirectory.Application.Domain
 {
 	public class Provider
 	{
+		[Identity]
 		public Guid ProviderId { get; set; }
 
-		// ReSharper disable once InconsistentNaming
 		public string NPI { get; set; }
 
 		public string FirstName { get; set; }
