@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using MediatR;
+using Octogami.ProviderDirectory.Application.Feature.AddProvider;
 
 namespace Octogami.ProviderDirectory.Web.Controllers.api
 {
@@ -13,9 +14,10 @@ namespace Octogami.ProviderDirectory.Web.Controllers.api
 		}
 
 		[Route("api/Providers")]
-		public IHttpActionResult PostProvider()
+		public IHttpActionResult PostProvider(AddProviderCommand command)
 		{
-			return Ok();
+			var response = _mediator.Send(command);
+			return Ok(response);
 		}
 	}
 }

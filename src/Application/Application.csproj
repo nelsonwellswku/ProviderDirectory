@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ApplicationRegistry.cs" />
     <Compile Include="Domain\Provider.cs" />
+    <Compile Include="Feature\AddProvider\AddProviderHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

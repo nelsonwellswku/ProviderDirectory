@@ -7,9 +7,9 @@ namespace Octogami.ProviderDirectory.Application
 	{
 		public ApplicationRegistry()
 		{
-			// Set up Mediator
 			Scan(scanner =>
 			{
+				scanner.AssemblyContainingType(typeof(ApplicationRegistry));
 				scanner.AssemblyContainingType<IMediator>();
 				scanner.WithDefaultConventions();
 				scanner.ConnectImplementationsToTypesClosing(typeof(IRequestHandler<,>));
