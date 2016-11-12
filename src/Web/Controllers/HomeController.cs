@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Web.Controllers
+namespace Octogami.ProviderDirectory.Web.Controllers
 {
 	public class HomeController : Controller
 	{
