@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Marten;
 using MediatR;
+using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Pipeline;
 using StructureMap;
 
@@ -29,7 +30,7 @@ namespace Octogami.ProviderDirectory.Application
 			// TODO: The ValidationHandler requires an IValidator<T>. Currently, if
 			// there's no type that implements IValidator<T>, a dependency resolution exception is thrown.
 			// Practically that means that a validator needs to be defined for every request,
-			// even if there's nothing to validate. 
+			// even if there's nothing to validate.
 			// Figure this out.
 			var handlerType = For(typeof(IRequestHandler<,>));
 			handlerType.DecorateAllWith(typeof(ValidationHandler<,>));
@@ -42,7 +43,10 @@ namespace Octogami.ProviderDirectory.Application
 					_.Connection("host=localhost;database=ProviderDirectory;password=password;username=postgres");
 					_.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
 
-					// other Marten configuration options
+					_.Schema.For<Provider>().Index(x => x.NPI, x =>
+					{
+						x.IsUnique = true;
+					});
 				});
 			});
 

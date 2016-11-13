@@ -16,8 +16,8 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Pipeline
 			// Validator -> Handler
 
 			// Arrange
-			var container = new TestContainer().GetContainer();
-			container.Configure(x => { x.AddRegistry<TestRegistry>(); });
+			var container = TestContainerFactory.New();
+			container.Configure(x => x.AddRegistry<TestRegistry>());
 
 			// Act
 			var handler = container.GetInstance<IRequestHandler<TestCommand, TestResponse>>();

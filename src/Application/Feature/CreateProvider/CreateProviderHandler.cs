@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentValidation;
 using Marten;
 using MediatR;
@@ -25,12 +26,23 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 
 	public class CreateProviderValidator : AbstractValidator<CreateProviderCommand>
 	{
-		public CreateProviderValidator()
+		private readonly IDocumentSession _session;
+
+		public CreateProviderValidator(IDocumentSession session)
 		{
+			_session = session;
+
 			RuleFor(x => x).NotNull();
 			RuleFor(x => x.NPI).NotEmpty().WithMessage("NPI should not be empty");
 			RuleFor(x => x.FirstName).NotEmpty();
 			RuleFor(x => x.LastName).NotEmpty();
+
+			RuleFor(x => x.NPI).Must(BeUnique);
+		}
+
+		private bool BeUnique(string npi)
+		{
+			return _session.Query<Provider>().Any(x => x.NPI == npi) == false;
 		}
 	}
 

@@ -3,9 +3,9 @@ using StructureMap;
 
 namespace Octogami.ProviderDirectory.Tests.Integration.TestSupport
 {
-	public class TestContainer
+	public static class TestContainerFactory
 	{
-		public IContainer GetContainer()
+		public static IContainer New()
 		{
 			var container = new Container(new ApplicationRegistry());
 			return container;
