@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Marten;
+using Marten.Schema;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Pipeline;
@@ -27,11 +28,6 @@ namespace Octogami.ProviderDirectory.Application
 			For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => ctx.GetInstance(t));
 			For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => ctx.GetAllInstances(t));
 
-			// TODO: The ValidationHandler requires an IValidator<T>. Currently, if
-			// there's no type that implements IValidator<T>, a dependency resolution exception is thrown.
-			// Practically that means that a validator needs to be defined for every request,
-			// even if there's nothing to validate.
-			// Figure this out.
 			var handlerType = For(typeof(IRequestHandler<,>));
 			handlerType.DecorateAllWith(typeof(ValidationHandler<,>));
 
@@ -45,6 +41,7 @@ namespace Octogami.ProviderDirectory.Application
 
 					_.Schema.For<Provider>().Index(x => x.NPI, x =>
 					{
+						x.Casing = ComputedIndex.Casings.Lower;
 						x.IsUnique = true;
 					});
 				});
