@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 using MediatR;
-using Octogami.ProviderDirectory.Application.Pipeline;
 using Octogami.ProviderDirectory.Tests.Integration.Pipeline;
 using StructureMap;
 

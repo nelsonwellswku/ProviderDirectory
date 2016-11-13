@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System.Linq;
+using FluentValidation;
+using MediatR;
 
 namespace Octogami.ProviderDirectory.Application.Pipeline
 {
@@ -15,7 +17,11 @@ namespace Octogami.ProviderDirectory.Application.Pipeline
 
 		public TResponse Handle(TRequest message)
 		{
-			_validator.Validate(message);
+			var failures = _validator.Validate(message).Errors.Where(x => x != null).ToList();
+			if(failures.Any())
+			{
+				throw new ValidationException(failures);
+			}
 
 			return _innerHandler.Handle(message);
 		}

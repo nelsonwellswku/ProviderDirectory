@@ -35,6 +35,10 @@
       <HintPath>..\packages\Baseline.1.1.0\lib\net451\Baseline.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Marten, Version=1.2.0.823, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Marten.1.2.0\lib\net46\Marten.dll</HintPath>
       <Private>True</Private>
@@ -77,7 +81,6 @@
     <Compile Include="ApplicationRegistry.cs" />
     <Compile Include="Domain\Provider.cs" />
     <Compile Include="Feature\CreateProvider\CreateProviderHandler.cs" />
-    <Compile Include="Pipeline\IValidator.cs" />
     <Compile Include="Pipeline\ValidationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

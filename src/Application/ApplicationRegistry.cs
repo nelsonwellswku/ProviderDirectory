@@ -1,4 +1,5 @@
-﻿using Marten;
+﻿using FluentValidation;
+using Marten;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Pipeline;
 using StructureMap;

@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using MediatR;
 using NUnit.Framework;
 using Octogami.ProviderDirectory.Application.Pipeline;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
@@ -35,13 +37,14 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Pipeline
 	{
 	}
 
-	public class TestValidator : IValidator<TestCommand>
+	public class TestValidator : AbstractValidator<TestCommand>
 	{
 		public bool WasValidated { get; private set; }
 
-		public void Validate(TestCommand obj)
+		public override ValidationResult Validate(TestCommand instance)
 		{
 			WasValidated = true;
+			return base.Validate(instance);
 		}
 	}
 

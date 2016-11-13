@@ -1,4 +1,5 @@
 ﻿using System;
+using FluentValidation;
 using Marten;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
@@ -23,12 +24,9 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 		public Guid ProviderId { get; set; }
 	}
 
-	public class CreateProviderValidator : IValidator<CreateProviderCommand>
+	public class CreateProviderValidator : AbstractValidator<CreateProviderCommand>
 	{
-		public void Validate(CreateProviderCommand command)
-		{
-			// TODO: Fill me in
-		}
+		// TODO: Fill me in
 	}
 
 	public class CreateProviderHandler : IRequestHandler<CreateProviderCommand, CreateProviderResponse>
