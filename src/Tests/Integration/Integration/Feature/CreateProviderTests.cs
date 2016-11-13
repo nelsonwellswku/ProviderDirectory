@@ -1,4 +1,6 @@
 ﻿using System;
+using FluentAssertions;
+using FluentValidation;
 using MediatR;
 using NUnit.Framework;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
@@ -16,12 +18,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			var mediator = testContainer.GetInstance<IMediator>();
 
 			// Act
-			var command = new CreateProviderCommand
-			{
-				NPI = "555ABC",
-				FirstName = "John",
-				LastName = "Smith"
-			};
+			var command = ValidCommand;
 			var response = mediator.Send(command);
 
 			// Assert
@@ -29,5 +26,65 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 
 			// TODO: Once implemented, use get provider query to assert that everything was saved correctly
 		}
+
+		[Test]
+		public void MissingNPI_FailsValidation()
+		{
+			// Arrange
+			var container = new TestContainer().GetContainer();
+			var mediator = container.GetInstance<IMediator>();
+			var command = ValidCommand;
+			command.NPI = string.Empty;
+
+			// Act
+			Action act = () => mediator.Send(command);
+
+			// Assert
+			act.ShouldThrow<ValidationException>();
+		}
+
+		[Test]
+		public void MissingFirstName_FailsValidation()
+		{
+			// Arrange
+			var container = new TestContainer().GetContainer();
+			var mediator = container.GetInstance<IMediator>();
+			var command = ValidCommand;
+			command.FirstName = string.Empty;
+
+			// Act
+			Action act = () => mediator.Send(command);
+
+			// Assert
+			act.ShouldThrow<ValidationException>();
+		}
+
+		[Test]
+		public void MissingLastName_FailsValidation()
+		{
+			// Arrange
+			var container = new TestContainer().GetContainer();
+			var mediator = container.GetInstance<IMediator>();
+			var command = ValidCommand;
+			command.LastName = string.Empty;
+
+			// Act
+			Action act = () => mediator.Send(command);
+
+			// Assert
+			act.ShouldThrow<ValidationException>();
+		}
+
+		private CreateProviderCommand ValidCommand => new CreateProviderCommand
+		{
+			NPI = "ABC123",
+			FirstName = "John",
+			LastName = "Smith",
+			AddressLineOne = "100 Old Hickory Blvd.",
+			AddressLineTwo = "Apt A.",
+			State = "TN",
+			City = "Nashville",
+			Zip = "37200"
+		};
 	}
 }

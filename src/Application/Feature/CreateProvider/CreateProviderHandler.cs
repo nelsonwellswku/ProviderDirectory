@@ -3,7 +3,6 @@ using FluentValidation;
 using Marten;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
-using Octogami.ProviderDirectory.Application.Pipeline;
 
 namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 {
@@ -26,7 +25,13 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 
 	public class CreateProviderValidator : AbstractValidator<CreateProviderCommand>
 	{
-		// TODO: Fill me in
+		public CreateProviderValidator()
+		{
+			RuleFor(x => x).NotNull();
+			RuleFor(x => x.NPI).NotEmpty().WithMessage("NPI should not be empty");
+			RuleFor(x => x.FirstName).NotEmpty();
+			RuleFor(x => x.LastName).NotEmpty();
+		}
 	}
 
 	public class CreateProviderHandler : IRequestHandler<CreateProviderCommand, CreateProviderResponse>
