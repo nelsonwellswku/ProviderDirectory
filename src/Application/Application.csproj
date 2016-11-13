@@ -77,6 +77,8 @@
     <Compile Include="ApplicationRegistry.cs" />
     <Compile Include="Domain\Provider.cs" />
     <Compile Include="Feature\CreateProvider\CreateProviderHandler.cs" />
+    <Compile Include="Pipeline\IValidator.cs" />
+    <Compile Include="Pipeline\ValidationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -79,8 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Feature\CreateProviderTests.cs" />
+    <Compile Include="Pipeline\PipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSupport\TestContainer.cs" />
+    <Compile Include="TestSupport\TestRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

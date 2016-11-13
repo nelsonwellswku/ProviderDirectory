@@ -2,6 +2,7 @@
 using Marten;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
+using Octogami.ProviderDirectory.Application.Pipeline;
 
 namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 {
@@ -20,6 +21,14 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 	public class CreateProviderResponse
 	{
 		public Guid ProviderId { get; set; }
+	}
+
+	public class CreateProviderValidator : IValidator<CreateProviderCommand>
+	{
+		public void Validate(CreateProviderCommand command)
+		{
+			// TODO: Fill me in
+		}
 	}
 
 	public class CreateProviderHandler : IRequestHandler<CreateProviderCommand, CreateProviderResponse>
