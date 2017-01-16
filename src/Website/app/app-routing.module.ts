@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateProviderComponent } from './create-provider.component';
 
 const routes: Routes = [
-    { path: 'createProvider', component: CreateProviderComponent }
+    { path: '', component: CreateProviderComponent }
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core'
+import { Component } from '@angular/core';
 
+import { Provider } from './provider';
 
 @Component({
     selector: 'create-provider',
@@ -8,5 +9,6 @@ import { Component } from '@angular/core'
 })
 export class CreateProviderComponent
 {
-
+    provider : Provider;
+    myModel : string;
 }

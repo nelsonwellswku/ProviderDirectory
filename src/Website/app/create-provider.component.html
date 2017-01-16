@@ -3,16 +3,40 @@
 <form id="create-provider-form">
     <fieldset>
         <h3>Provider</h3>
-        <label>NPI:</label><input type="text" name="npi"/>
-        <label>First name:</label><input type="text" name="firstName"/>
-        <label>last name:</label><input type="text" name="lastName"/>
+        <div>
+            <label>NPI:</label>
+            <input type="text" [(ngModel)]="myModel"/>
+        </div>
+        <div>
+            <label>First name:</label>
+            <input type="text"/>
+        </div>
+        <div>
+            <label>Last name:</label>
+            <input type="text" />
+        </div>
 
         <h3>Address</h3>
-        <label>Street</label><input type="text" name="lineOne"/>
-        <label>Street Two</label><input type="text" name="lineOne"/>
-        <label>City</label><input type="text" name="lineOne"/>
-        <label>State</label><input type="text" name="lineOne"/>
-        <label>Zip</label><input type="text" name="lineOne"/>
+        <div>
+            <label>Street</label>
+            <input type="text" name="streetOne" />
+        </div>
+        <div>
+            <label>Street Two</label>
+            <input type="text" name="streetTwo" />
+        </div>
+        <div>
+            <label>City</label>
+            <input type="text" name="city" />
+        </div>
+        <div>
+            <label>State</label>
+            <input type="text" name="state" />
+        </div>
+        <div>
+            <label>Zip</label>
+            <input type="text" name="zip" />
+        </div>
 
         <button type="button">Submit</button>
     </fieldset>
