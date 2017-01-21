@@ -10,5 +10,9 @@ import { Provider } from './provider';
 export class CreateProviderComponent
 {
     provider : Provider;
-    myModel : string;
+
+    constructor()
+    {
+        this.provider = new Provider();
+    }
 }
