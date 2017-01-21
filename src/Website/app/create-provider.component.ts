@@ -1,18 +1,24 @@
 import { Component } from '@angular/core';
 
-import { Provider } from './provider';
+import { CreateProviderCommand } from './CreateProviderCommand';
+import { ProviderService } from './provider.service'
 
 @Component({
     selector: 'create-provider',
     templateUrl: 'app/create-provider.component.html',
-    styleUrls: ['app/create-provider.component.css']
+    styleUrls: ['app/create-provider.component.css'],
+    providers: [ProviderService]
 })
 export class CreateProviderComponent
 {
-    provider : Provider;
+    provider : CreateProviderCommand;
 
-    constructor()
+    constructor(private providerService : ProviderService)
     {
-        this.provider = new Provider();
+        this.provider = new CreateProviderCommand();
+    }
+
+    createProvider(command: CreateProviderCommand): void {
+        this.providerService.createProvider(command);
     }
 }
