@@ -4,20 +4,13 @@ using FluentValidation;
 using Marten;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
+using Octogami.ProviderDirectory.Application.Feature.Common;
 
 namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 {
-	public class GetProviderQuery : IRequest<GetProviderResponse>
+	public class GetProviderQuery : IRequest<ProviderResponse>
 	{
 		public Guid ProviderId { get; set; }
-	}
-
-	public class GetProviderResponse
-	{
-		public Guid ProviderId { get; set; }
-		public string NPI { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
 	}
 
 	public class GetProviderValidator : AbstractValidator<GetProviderQuery>
@@ -36,7 +29,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 		}
 	}
 
-	public class GetProviderHandler : IRequestHandler<GetProviderQuery, GetProviderResponse>
+	public class GetProviderHandler : IRequestHandler<GetProviderQuery, ProviderResponse>
 	{
 		private readonly IDocumentSession _session;
 
@@ -45,10 +38,10 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 			_session = session;
 		}
 
-		public GetProviderResponse Handle(GetProviderQuery message)
+		public ProviderResponse Handle(GetProviderQuery message)
 		{
 			var provider = _session.Load<Provider>(message.ProviderId);
-			return new GetProviderResponse
+			return new ProviderResponse
 			{
 				ProviderId = provider.ProviderId,
 				NPI = provider.NPI,
