@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ProviderService } from './provider.service';
 import { CreateProviderComponent } from './create-provider.component';
+import { ProviderDetailComponent } from './provider-detail.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { CreateProviderComponent } from './create-provider.component';
   ],
   declarations: [
     AppComponent,
-    CreateProviderComponent
+    CreateProviderComponent,
+    ProviderDetailComponent
   ],
   bootstrap: [AppComponent]
 })

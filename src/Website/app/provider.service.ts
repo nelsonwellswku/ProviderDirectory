@@ -3,17 +3,32 @@ import { Headers, Http } from "@angular/http";
 
 import 'rxjs/add/operator/toPromise';
 
-import { CreateProviderCommand } from './createProviderCommand'
+import { Provider } from './provider';
+import { CreateProviderCommand } from './create-provider-command'
 
 @Injectable()
 export class ProviderService {
 
-    private createProviderUrl = 'http://localhost:65023/api/providers';
+    private providersCollectionUrl = 'http://localhost:65023/api/providers';
 
     constructor(private http : Http) { }
 
+    getProvider(providerId : string) : Promise<Provider> {
+        return this.http.get(this.providersCollectionUrl + "/" + providerId)
+        .toPromise()
+        .then(response => {
+            var provider = new Provider();
+            var data : any = response.json();
+            provider.npi = data.NPI;
+            provider.firstName = data.FirstName;
+            provider.lastName = data.LastName;
+            return provider;
+        })
+        .catch(this.handleError);
+    }
+
     createProvider(command : CreateProviderCommand) : Promise<string> {
-        return this.http.post(this.createProviderUrl, command)
+        return this.http.post(this.providersCollectionUrl, command)
             .toPromise()
             .then(response => response.json().ProviderId)
             .catch(this.handleError)

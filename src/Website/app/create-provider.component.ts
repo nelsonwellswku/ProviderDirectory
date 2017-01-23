@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CreateProviderCommand } from './CreateProviderCommand';
+import { CreateProviderCommand } from './create-provider-command';
 import { ProviderService } from './provider.service'
 
 @Component({
