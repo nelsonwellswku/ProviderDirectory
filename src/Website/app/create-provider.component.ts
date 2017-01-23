@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CreateProviderCommand } from './create-provider-command';
 import { ProviderService } from './provider.service'
@@ -13,12 +14,16 @@ export class CreateProviderComponent
 {
     provider : CreateProviderCommand;
 
-    constructor(private providerService : ProviderService)
+    constructor(
+        private providerService : ProviderService,
+        private router : Router
+    )
     {
         this.provider = new CreateProviderCommand();
     }
 
     createProvider(command: CreateProviderCommand): void {
-        this.providerService.createProvider(command);
+        this.providerService.createProvider(command)
+            .then(x => this.router.navigate(['providers', x]));
     }
 }
