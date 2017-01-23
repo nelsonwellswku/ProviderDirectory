@@ -7,7 +7,6 @@ import { ProviderService } from './provider.service'
 @Component({
     selector: 'create-provider',
     templateUrl: 'app/create-provider.component.html',
-    styleUrls: ['app/create-provider.component.css'],
     providers: [ProviderService]
 })
 export class CreateProviderComponent
