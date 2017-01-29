@@ -11,6 +11,7 @@ import { ProviderService } from './provider.service';
 import { CreateProviderComponent } from './create-provider.component';
 import { ProviderDetailComponent } from './provider-detail.component';
 import { ListProvidersComponent } from './list-providers.component';
+import { NavigationComponent } from './navigation.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { ListProvidersComponent } from './list-providers.component';
     AppComponent,
     CreateProviderComponent,
     ProviderDetailComponent,
-    ListProvidersComponent
+    ListProvidersComponent,
+    NavigationComponent
   ],
   bootstrap: [AppComponent]
 })
