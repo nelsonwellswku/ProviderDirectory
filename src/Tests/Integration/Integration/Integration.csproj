@@ -51,8 +51,8 @@
       <HintPath>..\..\..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Marten, Version=1.2.0.823, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Marten.1.2.0\lib\net46\Marten.dll</HintPath>
+    <Reference Include="Marten, Version=1.2.5.871, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Marten.1.2.5\lib\net46\Marten.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">

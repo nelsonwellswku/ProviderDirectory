@@ -11,12 +11,12 @@ import { GetProvidersQuery } from './get-providers-query'
 @Injectable()
 export class ProviderService {
 
-    private providersCollectionUrl = 'http://localhost:65023/api/providers';
+    ProvidersCollectionUrl = 'http://localhost:65023/api/providers';
 
     constructor(private http: Http) { }
 
     getProvider(providerId: string): Promise<Provider> {
-        return this.http.get(this.providersCollectionUrl + "/" + providerId)
+        return this.http.get(this.ProvidersCollectionUrl + "/" + providerId)
             .toPromise()
             .then(response => {
                 var provider = new Provider();
@@ -30,14 +30,14 @@ export class ProviderService {
     }
 
     createProvider(command: CreateProviderCommand): Promise<string> {
-        return this.http.post(this.providersCollectionUrl, command)
+        return this.http.post(this.ProvidersCollectionUrl, command)
             .toPromise()
             .then(response => response.json().ProviderId)
             .catch(this.handleError)
     }
 
     getProviders(query: GetProvidersQuery): Promise<PagedResult<Provider>> {
-        var url = this.providersCollectionUrl +
+        var url = this.ProvidersCollectionUrl +
             '?page=' +
             query.page +
             '&recordsPerPage=' +

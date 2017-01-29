@@ -12,6 +12,7 @@ import { CreateProviderComponent } from './create-provider.component';
 import { ProviderDetailComponent } from './provider-detail.component';
 import { ListProvidersComponent } from './list-providers.component';
 import { NavigationComponent } from './navigation.component';
+import { PagingComponent } from './paging.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { NavigationComponent } from './navigation.component';
     CreateProviderComponent,
     ProviderDetailComponent,
     ListProvidersComponent,
-    NavigationComponent
+    NavigationComponent,
+    PagingComponent
   ],
   bootstrap: [AppComponent]
 })

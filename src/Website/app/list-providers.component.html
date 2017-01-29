@@ -18,3 +18,7 @@
         </td>
     </tr>
 </table>
+
+<div *ngIf="pagedResult">
+    <pages [pagedResult]="pagedResult" [url]="pagingUrl"></pages>
+</div>
