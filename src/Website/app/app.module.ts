@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ProviderService } from './provider.service';
 import { CreateProviderComponent } from './create-provider.component';
 import { ProviderDetailComponent } from './provider-detail.component';
+import { ListProvidersComponent } from './list-providers.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { ProviderDetailComponent } from './provider-detail.component';
   declarations: [
     AppComponent,
     CreateProviderComponent,
-    ProviderDetailComponent
+    ProviderDetailComponent,
+    ListProvidersComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,12 @@
+<h2>Providers</h2>
+
+<table>
+    <tr>
+        <td>NPI</td>
+        <td>Name</td>
+    </tr>
+    <tr *ngFor="let provider of providers">
+        <td>{{provider.npi}}</td>
+        <td>{{provider.firstName}} {{provider.lastName}}</td>
+    </tr> 
+</table>
