@@ -10,7 +10,7 @@ using Octogami.ProviderDirectory.Application.Feature.Common;
 
 namespace Octogami.ProviderDirectory.Application.Feature.ListProviders
 {
-	public class ListProvidersQuery : IRequest<ListProvidersResponse>
+	public class ListProvidersQuery : IRequest<IPaged<ProviderResponse>>
 	{
 		public ListProvidersQuery()
 		{
@@ -22,17 +22,16 @@ namespace Octogami.ProviderDirectory.Application.Feature.ListProviders
 		public int RecordsPerPage { get; set; }
 	}
 
-	public class ListProvidersResponse
-	{
-		public IEnumerable<ProviderResponse> Providers { get; set; }
-		public int TotalPages { get; set; }
-	}
-
 	public class ListProvidersQueryValidator : AbstractValidator<ListProvidersQuery>
 	{
+		public ListProvidersQueryValidator()
+		{
+			RuleFor(x => x.Page).GreaterThanOrEqualTo(1).LessThan(int.MaxValue);
+			RuleFor(x => x.RecordsPerPage).LessThan(100);
+		}
 	}
 
-	public class ListProvidersQueryHandler : IRequestHandler<ListProvidersQuery, ListProvidersResponse>
+	public class ListProvidersQueryHandler : IRequestHandler<ListProvidersQuery, IPaged<ProviderResponse>>
 	{
 		private readonly IDocumentSession _session;
 
@@ -41,7 +40,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.ListProviders
 			_session = session;
 		}
 
-		public ListProvidersResponse Handle(ListProvidersQuery message)
+		public IPaged<ProviderResponse> Handle(ListProvidersQuery message)
 		{
 			QueryStatistics stats;
 			var results = _session.Query<Provider>()
@@ -50,17 +49,13 @@ namespace Octogami.ProviderDirectory.Application.Feature.ListProviders
 				.Take(message.RecordsPerPage)
 				.ToList();
 
-			return new ListProvidersResponse
+			return new Paged<ProviderResponse>(results.Select(x => new ProviderResponse
 			{
-				TotalPages = (int) Math.Ceiling(stats.TotalResults / (double) message.RecordsPerPage),
-				Providers = results.Select(x => new ProviderResponse
-				{
-					ProviderId = x.ProviderId,
-					NPI = x.NPI,
-					FirstName = x.FirstName,
-					LastName = x.LastName
-				})
-			};
+				ProviderId = x.ProviderId,
+				NPI = x.NPI,
+				FirstName = x.FirstName,
+				LastName = x.LastName
+			}), stats.TotalResults, message.Page, message.RecordsPerPage);
 		}
 	}
 }

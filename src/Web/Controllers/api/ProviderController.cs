@@ -33,7 +33,7 @@ namespace Octogami.ProviderDirectory.Web.Controllers.api
 		[Route("api/Providers")]
 		public IHttpActionResult GetProviders([FromUri]ListProvidersQuery query)
 		{
-			var response = _mediator.Send(query);
+			var response = _mediator.Send(query ?? new ListProvidersQuery());
 			return Ok(response);
 		}
 	}

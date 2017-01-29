@@ -35,6 +35,10 @@
       <HintPath>..\..\..\packages\Baseline.1.1.0\lib\net451\Baseline.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Bogus, Version=9.0.2.0, Culture=neutral, PublicKeyToken=fa1bb3f3f218129a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Bogus.9.0.2\lib\net40\Bogus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentAssertions, Version=4.17.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FluentAssertions.4.17.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
@@ -92,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Feature\CreateProviderTests.cs" />
     <Compile Include="Feature\GetProviderTests.cs" />
+    <Compile Include="Feature\ListProviderTests.cs" />
     <Compile Include="Pipeline\PipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSupport\TestContainer.cs" />

@@ -80,6 +80,8 @@
   <ItemGroup>
     <Compile Include="ApplicationRegistry.cs" />
     <Compile Include="Domain\Provider.cs" />
+    <Compile Include="Feature\Common\IPaged.cs" />
+    <Compile Include="Feature\Common\Paged.cs" />
     <Compile Include="Feature\CreateProvider\CreateProviderHandler.cs" />
     <Compile Include="Feature\GetProvider\GetProviderHandler.cs" />
     <Compile Include="Feature\Common\ProviderResponse.cs" />

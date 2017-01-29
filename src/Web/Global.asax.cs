@@ -20,6 +20,10 @@ namespace Octogami.ProviderDirectory.Web
 
 			// Configure StructureMap for WebAPI
 			GlobalConfiguration.Configuration.UseStructureMap<ApplicationRegistry>();
+
+			// Only serialize as JSON
+			GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+			GlobalConfiguration.Configuration.Formatters.Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
 		}
 	}
 }
