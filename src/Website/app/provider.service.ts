@@ -65,6 +65,7 @@ export class ProviderService {
                 pagedResult.currentPage = responseJson.CurrentPage;
                 pagedResult.currentRecordsPerPage = responseJson.CurrentRecordsPerPage;
                 pagedResult.totalItems = responseJson.TotalItems;
+
                 return pagedResult;
             })
             .catch(this.handleError);

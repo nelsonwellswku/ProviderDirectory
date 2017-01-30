@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Provider } from './provider';
 import { ProviderService } from './provider.service';
@@ -11,22 +11,24 @@ import { PagedResult } from './paged-result';
     providers: [ProviderService]
 })
 export class ListProvidersComponent implements OnInit {
-    constructor(private providerService: ProviderService) { }
+    constructor(private providerService: ProviderService, private route: ActivatedRoute) { }
 
     providers: Provider[];
     pagedResult: PagedResult<Provider>
     pagingUrl: string;
 
     ngOnInit(): void {
-        this.pagingUrl = this.providerService.ProvidersCollectionUrl;
+        this.pagingUrl = "/providers";
 
-        this.providerService.getProviders({
-            page: 1,
-            recordsPerPage: 10
-        })
-        .then((pagedResult: PagedResult<Provider>) => {
-            this.pagedResult = pagedResult;
-            this.providers = pagedResult.items
-        })
+        this.route.params.subscribe((params: Params) => {
+            this.providerService.getProviders({
+               page: params['page'] || 1,
+               recordsPerPage: params['recordsPerPage'] || 10
+            })
+           .then((pagedResult: PagedResult<Provider>) => {
+               this.pagedResult = pagedResult;
+               this.providers = pagedResult.items
+           })
+        });
     }
 }

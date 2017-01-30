@@ -1,7 +1,15 @@
-<p>Total items: {{pagedResult.totalItems}}</p>
-
 <ul>
-    <li *ngFor="let page of pages">
+    <li *ngFor="let page of pages">      
+        
+        <!-- TODO: This doesn't work because currentPage doesn't change since it is set
+        in ngOnInit and a child component. I think there needs to be a way to monitor
+        the value for change but I'm not sure how to do it right now. 
+        <a *ngIf='page==currentPage'>{{page}}</a>
+
+        <a *ngIf='page!=currentPage' [routerLink]="[url, {page: page, recordsPerPage: recordsPerPage}]">
         {{page}}
+        </a>-->
+
+        <a [routerLink]="[url, {page: page, recordsPerPage: recordsPerPage}]">{{page}}</a>
     </li>
 </ul>

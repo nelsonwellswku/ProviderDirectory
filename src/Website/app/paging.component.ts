@@ -10,6 +10,8 @@ import { Provider } from './provider';
 export class PagingComponent<T> implements OnInit{
 
     pages : number[];
+    recordsPerPage : number;
+    currentPage : number;
 
     @Input()
     url: string;
@@ -18,6 +20,9 @@ export class PagingComponent<T> implements OnInit{
     pagedResult: PagedResult<T>;
 
     ngOnInit() : void {
+        this.currentPage = this.pagedResult.currentPage;
+        this.recordsPerPage = this.pagedResult.currentRecordsPerPage;
+
         var pageCount = this.pagedResult.totalItems / this.pagedResult.currentRecordsPerPage;
         this.pages = new Array<number>();
         for(var i = 0; i < pageCount; i++) {

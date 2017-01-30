@@ -6,7 +6,8 @@ import { CreateProviderComponent } from './create-provider.component';
 import { ProviderDetailComponent } from './provider-detail.component';
 
 const routes: Routes = [
-    { path: '', component: ListProvidersComponent },
+    { path: '', redirectTo: 'providers', pathMatch: 'full' },
+    { path: 'providers', component: ListProvidersComponent },
     { path: 'createProvider', component: CreateProviderComponent },
     { path: 'providers/:providerId', component: ProviderDetailComponent }
 ];
