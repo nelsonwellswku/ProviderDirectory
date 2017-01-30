@@ -2,11 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'site-navigation',
-    template: `
-        <ul>
-            <li><a routerLink=''>Home</a></li>
-            <li><a routerLink='createProvider'>Add a Provider</a></li>
-        </ul>
-    `
+    templateUrl: 'app/navigation.component.html'
 })
 export class NavigationComponent { }

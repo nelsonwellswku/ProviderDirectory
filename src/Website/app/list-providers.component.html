@@ -1,24 +1,30 @@
-<h2>Providers</h2>
+<div>
+    <h2>Providers</h2>
 
-<table>
-    <tr>
-        <td>NPI</td>
-        <td>Name</td>
-    </tr>
-    <tr *ngFor="let provider of providers">
-        <td>
-            <a routerLink="/providers/{{provider.providerId}}">
-            {{provider.npi}}
-            </a>
-        </td>
-        <td>
-            <a routerLink="/providers/{{provider.providerId}}">
-            {{provider.firstName}} {{provider.lastName}}
-            </a>
-        </td>
-    </tr>
-</table>
+    <table class="table table-hover">
+        <thead class="thead-default">
+            <tr>
+                <th>NPI</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let provider of providers; let i = index">
+                <td>
+                    <a routerLink="/providers/{{provider.providerId}}">
+                    {{provider.npi}}
+                </a>
+                </td>
+                <td>
+                    <a routerLink="/providers/{{provider.providerId}}">
+                    {{provider.firstName}} {{provider.lastName}}
+                </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<div *ngIf="pagedResult">
-    <pages [pagedResult]="pagedResult" [url]="pagingUrl"></pages>
+    <div *ngIf="pagedResult">
+        <pages [pagedResult]="pagedResult" [url]="pagingUrl"></pages>
+    </div>
 </div>

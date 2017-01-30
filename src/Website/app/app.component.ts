@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'my-app',
   template: `
-  <site-navigation></site-navigation>
-  <h1>Provider Directory</h1>
-  <router-outlet></router-outlet>  
+  <div class='container'>
+    <site-navigation></site-navigation>
+    <router-outlet></router-outlet>  
+  </div>
 `,
 })
 export class AppComponent  { name = 'Angular'; }
