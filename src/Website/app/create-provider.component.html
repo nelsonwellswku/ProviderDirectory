@@ -1,43 +1,59 @@
 <h2>Create a provider</h2>
 
 <form id="create-provider-form">
-    <fieldset>
-        <h3>Provider</h3>
-        <div>
-            <label>NPI:</label>
-            <input type="text" name="npi" [(ngModel)]="provider.npi"/>
+    <fieldset class="form-group">
+        <legend>Provider</legend>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">NPI:</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="npi" [(ngModel)]="provider.npi" />
+            </div>
         </div>
-        <div>
-            <label>First name:</label>
-            <input type="text" name="firstName" [(ngModel)]="provider.firstName">
+        <div class="form-group row">
+            <label class="col-2 col-form-label">First name:</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="firstName" [(ngModel)]="provider.firstName">
+            </div>
         </div>
-        <div>
-            <label>Last name:</label>
-            <input type="text" name="lastName" [(ngModel)]="provider.lastName"/>
-        </div>
-
-        <h3>Address</h3>
-        <div>
-            <label>Street</label>
-            <input type="text" name="streetOne" [(ngModel)]="streetOne"/>
-        </div>
-        <div>
-            <label>Street Two</label>
-            <input type="text" name="streetTwo" [(ngModel)]="streetTwo"/>
-        </div>
-        <div>
-            <label>City</label>
-            <input type="text" name="city" [(ngModel)]="city"/>
-        </div>
-        <div>
-            <label>State</label>
-            <input type="text" name="state" [(ngModel)]="state"/>
-        </div>
-        <div>
-            <label>Zip</label>
-            <input type="text" name="zip" [(ngModel)]="zip"/>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Last name:</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="lastName" [(ngModel)]="provider.lastName" />
+            </div>
         </div>
 
-        <button type="button" (click)="createProvider(provider)">Submit</button>
+        <legend>Address</legend>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Street</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="streetOne" [(ngModel)]="streetOne" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Street Two</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="streetTwo" [(ngModel)]="streetTwo" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">City</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="city" [(ngModel)]="city" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">State</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="state" [(ngModel)]="state" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Zip</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="zip" [(ngModel)]="zip" />
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="createProvider(provider)">Submit</button>
     </fieldset>
 </form>
