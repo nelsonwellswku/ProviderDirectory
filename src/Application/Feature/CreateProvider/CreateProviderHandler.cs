@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentValidation;
 using Marten;
+using Marten.Util;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
 
@@ -10,12 +11,34 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 	public class CreateProviderCommand : IRequest<CreateProviderResponse>
 	{
 		public string NPI { get; set; }
+
+		public string EntityType { get; set; }
+
 		public string FirstName { get; set; }
+
+		public string MiddleName { get; set; }
+
 		public string LastName { get; set; }
-		public string AddressLineOne { get; set; }
-		public string AddressLineTwo { get; set; }
+
+		public string Gender { get; set; }
+
+		public string EnumerationDate { get; set; }
+
+		public Address MailingAddress { get; set; }
+
+		public Address PracticeAddress { get; set; }
+	}
+
+	public class Address
+	{
+		public string LineOne { get; set; }
+
+		public string LineTwo { get; set; }
+
 		public string City { get; set; }
+
 		public string State { get; set; }
+
 		public string Zip { get; set; }
 	}
 
@@ -37,7 +60,12 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 			RuleFor(x => x.FirstName).NotEmpty();
 			RuleFor(x => x.LastName).NotEmpty();
 
+			RuleFor(x => x.EnumerationDate).IsDate();
+
 			RuleFor(x => x.NPI).Must(BeUnique);
+
+			RuleFor(x => x.Gender).Matches("^(male|female|other|unknown)$");
+			RuleFor(x => x.EntityType).Matches("^(individual|organization)$");
 		}
 
 		private bool BeUnique(string npi)
@@ -60,18 +88,33 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 			var provider = new Provider
 			{
 				NPI = message.NPI,
+				EntityType = message.EntityType == null ? EntityType.Unknown : (EntityType) Enum.Parse(typeof(EntityType), message.EntityType, true),
+				EnumerationDate = message.EnumerationDate == null ? DateTime.Now : DateTime.Parse(message.EnumerationDate),
 				FirstName = message.FirstName,
+				MiddleName = message.MiddleName,
 				LastName = message.LastName,
-				Address = new Address
+				Gender = message.Gender == null ? Gender.Unknown : (Gender) Enum.Parse(typeof(Gender), message.Gender, true),
+				MailingAddress = new Domain.Address
 				{
-					LineOne = message.AddressLineOne,
-					LineTwo = message.AddressLineTwo,
-					City = message.City,
+					LineOne = message.MailingAddress?.LineOne,
+					LineTwo = message.MailingAddress?.LineTwo,
+					City = message.MailingAddress?.City,
 					State = new State
 					{
-						Name = message.State
+						Name = message.MailingAddress?.State
 					},
-					Zip = message.Zip
+					Zip = message.MailingAddress?.Zip
+				},
+				PracticeAddress = new Domain.Address
+				{
+					LineOne = message.PracticeAddress?.LineOne,
+					LineTwo = message.PracticeAddress?.LineTwo,
+					City = message.PracticeAddress?.City,
+					State = new State
+					{
+						Name = message.PracticeAddress?.State
+					},
+					Zip = message.PracticeAddress?.Zip
 				}
 			};
 

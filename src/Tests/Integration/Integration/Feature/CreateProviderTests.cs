@@ -115,13 +115,27 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		private static CreateProviderCommand ValidCommand => new CreateProviderCommand
 		{
 			NPI = "ABC123",
+            EntityType = "individual",
+            EnumerationDate = "10/31/2015",
 			FirstName = "John",
 			LastName = "Smith",
-			AddressLineOne = "100 Old Hickory Blvd.",
-			AddressLineTwo = "Apt A.",
-			State = "TN",
-			City = "Nashville",
-			Zip = "37200"
+            Gender = "male",
+            MailingAddress = new Application.Feature.CreateProvider.Address
+            {
+                LineOne = "100 Old Hickory Blvd.",
+                LineTwo = "Suite 250.",
+                State = "TN",
+                City = "Nashville",
+                Zip = "37200"
+            },
+            PracticeAddress = new Application.Feature.CreateProvider.Address
+            {
+                LineOne = "425 Peachtree Ave",
+                LineTwo = "Suite 1000",
+                State = "TN",
+                City = "Nashville",
+                Zip = "37211"
+            }
 		};
 	}
 }

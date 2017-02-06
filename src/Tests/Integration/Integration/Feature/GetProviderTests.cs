@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -7,7 +8,6 @@ using NUnit.Framework;
 using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
 using Octogami.ProviderDirectory.Application.Feature.GetProvider;
-using Octogami.ProviderDirectory.Application.Pipeline;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
 using StructureMap;
 
@@ -46,8 +46,13 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			{
 				NPI = "123",
 				FirstName = "Elijah",
-				LastName = "Smith"
-			}).ProviderId;
+				LastName = "Smith",
+                Gender = "male",
+                EntityType = "individual",
+                EnumerationDate = DateTime.Now.ToString(CultureInfo.InvariantCulture),
+                MailingAddress = new Application.Feature.CreateProvider.Address(),
+                PracticeAddress = new Application.Feature.CreateProvider.Address()
+            }).ProviderId;
 
 			// Act
 			var result = mediator.Send(new GetProviderQuery {ProviderId = providerId});
