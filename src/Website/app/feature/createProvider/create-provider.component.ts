@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CreateProviderForm } from './create-provider-form';
-import { ProviderService } from '../../provider.service'
+import { ProviderService } from '../provider.service'
 
 @Component({
     selector: 'create-provider',

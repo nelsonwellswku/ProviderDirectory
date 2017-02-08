@@ -4,9 +4,9 @@ import { Headers, Http } from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 
 import { Provider } from './provider';
-import { CreateProviderCommand } from './create-provider-command'
-import { PagedResult } from './paged-result';
-import { GetProvidersQuery } from './get-providers-query'
+import { CreateProviderForm } from './createProvider/create-provider-form'
+import { PagedResult } from '../paged-result';
+import { GetProvidersQuery } from './providerDetail/get-providers-query'
 
 @Injectable()
 export class ProviderService {
@@ -29,7 +29,7 @@ export class ProviderService {
             .catch(this.handleError);
     }
 
-    createProvider(command: CreateProviderCommand): Promise<string> {
+    createProvider(command: CreateProviderForm): Promise<string> {
         return this.http.post(this.ProvidersCollectionUrl, command)
             .toPromise()
             .then(response => response.json().ProviderId)

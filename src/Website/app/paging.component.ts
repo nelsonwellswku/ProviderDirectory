@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { PagedResult } from './paged-result';
-import { Provider } from './provider';
+import { Provider } from './feature/provider';
 
 @Component({
     selector: 'pages',

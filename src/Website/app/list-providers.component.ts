@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Provider } from './provider';
-import { ProviderService } from './provider.service';
+import { Provider } from './feature/provider';
+import { ProviderService } from './feature/provider.service';
 import { PagedResult } from './paged-result';
 
 @Component({

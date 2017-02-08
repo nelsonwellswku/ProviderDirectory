@@ -3,12 +3,12 @@ import { Router, ActivatedRoute, Params } from '@angular/router'
 
 import 'rxjs/add/operator/switchMap';
 
-import { Provider } from './provider';
-import { ProviderService } from './provider.service';
+import { Provider } from '../provider';
+import { ProviderService } from '../provider.service';
 
 @Component({
     selector: 'provider-detail',
-    templateUrl: 'app/provider-detail.component.html',
+    templateUrl: 'app/feature/providerDetail/provider-detail.component.html',
     providers: [ProviderService]
 })
 export class ProviderDetailComponent implements OnInit {
@@ -20,7 +20,7 @@ export class ProviderDetailComponent implements OnInit {
         private router : Router
     ) { 
         this.provider = new Provider();
-    } 
+    }
 
     ngOnInit() : void {
         this.route.params

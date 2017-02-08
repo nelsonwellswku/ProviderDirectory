@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ListProvidersComponent } from './list-providers.component';
 import { CreateProviderComponent } from './feature/createProvider/create-provider.component';
-import { ProviderDetailComponent } from './provider-detail.component';
+import { ProviderDetailComponent } from './feature/providerDetail/provider-detail.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'providers', pathMatch: 'full' },

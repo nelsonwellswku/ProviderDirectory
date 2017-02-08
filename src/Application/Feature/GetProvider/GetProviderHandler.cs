@@ -46,7 +46,31 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 				ProviderId = provider.ProviderId,
 				NPI = provider.NPI,
 				FirstName = provider.FirstName,
-				LastName = provider.LastName
+				LastName = provider.LastName,
+				MailingAddress = new Common.Address
+				{
+					StreetOne = provider.MailingAddress.StreetOne,
+					StreetTwo = provider.MailingAddress.StreetTwo,
+					City = provider.MailingAddress.City,
+					State = new Common.State
+					{
+						Abbreviation = provider.MailingAddress.State.Abbreviation,
+						Name = provider.MailingAddress.State.Name
+					},
+					Zip = provider.MailingAddress.Zip
+				},
+				PracticeAddress = new Common.Address
+				{
+					StreetOne = provider.PracticeAddress.StreetOne,
+					StreetTwo = provider.PracticeAddress.StreetTwo,
+					City = provider.PracticeAddress.City,
+					State = new Common.State
+					{
+						Abbreviation = provider.PracticeAddress.State.Abbreviation,
+						Name = provider.PracticeAddress.State.Name
+					},
+					Zip = provider.PracticeAddress.Zip
+				}
 			};
 		}
 	}
