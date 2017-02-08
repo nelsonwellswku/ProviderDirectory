@@ -50,9 +50,9 @@ namespace Octogami.ProviderDirectory.Application.Domain
 
     public class Address
     {
-        public string LineOne { get; set; }
+        public string StreetOne { get; set; }
 
-        public string LineTwo { get; set; }
+        public string StreetTwo { get; set; }
 
         public string City { get; set; }
 

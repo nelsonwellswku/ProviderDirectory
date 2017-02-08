@@ -1,0 +1,91 @@
+<h2>Create a provider</h2>
+
+<form id="create-provider-form">
+    <fieldset class="form-group">
+        <legend>Provider</legend>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">NPI:</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="npi" [(ngModel)]="provider.npi" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">First name:</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="firstName" [(ngModel)]="provider.firstName">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Last name:</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="lastName" [(ngModel)]="provider.lastName" />
+            </div>
+        </div>
+
+        <legend>Mailing Address</legend>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Street</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="streetOne" [(ngModel)]="provider.mailingAddress.streetOne" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Street Two</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="streetTwo" [(ngModel)]="provider.mailingAddress.streetTwo" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">City</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="city" [(ngModel)]="provider.mailingAddress.city" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">State</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="state" [(ngModel)]="provider.mailingAddress.state" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Zip</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="zip" [(ngModel)]="provider.mailingAddress.zip" />
+            </div>
+        </div>
+
+        <legend>Practice Address</legend>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Street</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="streetOne" [(ngModel)]="provider.practiceAddress.streetOne" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Street Two</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="streetTwo" [(ngModel)]="provider.practiceAddress.streetTwo" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">City</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="city" [(ngModel)]="provider.practiceAddress.city" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">State</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="state" [(ngModel)]="provider.practiceAddress.state" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Zip</label>
+            <div class="col-7">
+                <input type="text" class="form-control" name="zip" [(ngModel)]="provider.practiceAddress.zip" />
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="createProvider(provider)">Submit</button>
+    </fieldset>
+</form>

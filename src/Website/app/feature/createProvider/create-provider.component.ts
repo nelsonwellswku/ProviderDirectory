@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { CreateProviderCommand } from './create-provider-command';
-import { ProviderService } from './provider.service'
+import { CreateProviderForm } from './create-provider-form';
+import { ProviderService } from '../../provider.service'
 
 @Component({
     selector: 'create-provider',
-    templateUrl: 'app/create-provider.component.html',
+    templateUrl: 'app/feature/createProvider/create-provider.component.html',
     providers: [ProviderService]
 })
 export class CreateProviderComponent
 {
-    provider : CreateProviderCommand;
+    provider : CreateProviderForm;
 
     constructor(
         private providerService : ProviderService,
         private router : Router
     )
     {
-        this.provider = new CreateProviderCommand();
+        this.provider = new CreateProviderForm();
     }
 
-    createProvider(command: CreateProviderCommand): void {
-        this.providerService.createProvider(command)
+    createProvider(form: CreateProviderForm): void {
+        this.providerService.createProvider(form)
             .then(x => this.router.navigate(['providers', x]));
     }
 }

@@ -8,12 +8,39 @@ using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
 using StructureMap;
+using Address = Octogami.ProviderDirectory.Application.Feature.CreateProvider.Address;
 
 namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 {
 	public class CreateProviderTests
 	{
 		private IContainer _container;
+
+		private static CreateProviderCommand ValidCommand => new CreateProviderCommand
+		{
+			NPI = "ABC123",
+			EntityType = "individual",
+			EnumerationDate = "10/31/2015",
+			FirstName = "John",
+			LastName = "Smith",
+			Gender = "male",
+			MailingAddress = new Address
+			{
+				StreetOne = "100 Old Hickory Blvd.",
+				StreetTwo = "Suite 250.",
+				State = "TN",
+				City = "Nashville",
+				Zip = "37200"
+			},
+			PracticeAddress = new Address
+			{
+				StreetOne = "425 Peachtree Ave",
+				StreetTwo = "Suite 1000",
+				State = "TN",
+				City = "Nashville",
+				Zip = "37211"
+			}
+		};
 
 		[OneTimeSetUp]
 		public void SetUpFixture()
@@ -111,31 +138,5 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			// Assert
 			act.ShouldThrow<ValidationException>();
 		}
-
-		private static CreateProviderCommand ValidCommand => new CreateProviderCommand
-		{
-			NPI = "ABC123",
-            EntityType = "individual",
-            EnumerationDate = "10/31/2015",
-			FirstName = "John",
-			LastName = "Smith",
-            Gender = "male",
-            MailingAddress = new Application.Feature.CreateProvider.Address
-            {
-                LineOne = "100 Old Hickory Blvd.",
-                LineTwo = "Suite 250.",
-                State = "TN",
-                City = "Nashville",
-                Zip = "37200"
-            },
-            PracticeAddress = new Application.Feature.CreateProvider.Address
-            {
-                LineOne = "425 Peachtree Ave",
-                LineTwo = "Suite 1000",
-                State = "TN",
-                City = "Nashville",
-                Zip = "37211"
-            }
-		};
 	}
 }

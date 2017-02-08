@@ -31,9 +31,9 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 
 	public class Address
 	{
-		public string LineOne { get; set; }
+		public string StreetOne { get; set; }
 
-		public string LineTwo { get; set; }
+		public string StreetTwo { get; set; }
 
 		public string City { get; set; }
 
@@ -96,8 +96,8 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 				Gender = message.Gender == null ? Gender.Unknown : (Gender) Enum.Parse(typeof(Gender), message.Gender, true),
 				MailingAddress = new Domain.Address
 				{
-					LineOne = message.MailingAddress?.LineOne,
-					LineTwo = message.MailingAddress?.LineTwo,
+					StreetOne = message.MailingAddress?.StreetOne,
+					StreetTwo = message.MailingAddress?.StreetTwo,
 					City = message.MailingAddress?.City,
 					State = new State
 					{
@@ -107,8 +107,8 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 				},
 				PracticeAddress = new Domain.Address
 				{
-					LineOne = message.PracticeAddress?.LineOne,
-					LineTwo = message.PracticeAddress?.LineTwo,
+					StreetOne = message.PracticeAddress?.StreetOne,
+					StreetTwo = message.PracticeAddress?.StreetTwo,
 					City = message.PracticeAddress?.City,
 					State = new State
 					{
