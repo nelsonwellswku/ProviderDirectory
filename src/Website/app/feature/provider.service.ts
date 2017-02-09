@@ -25,7 +25,7 @@ export class ProviderService {
     createProvider(command: CreateProviderForm): Promise<string> {
         return this.http.post(this.ProvidersCollectionUrl, command)
             .toPromise()
-            .then(response => response.json().ProviderId)
+            .then(response => response.json().providerId)
             .catch(this.handleError)
     }
 

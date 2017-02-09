@@ -5,6 +5,12 @@ export class Provider{
     lastName: string;
     mailingAddress?: Address;
     practiceAddress?: Address;
+
+    constructor() {
+        this.mailingAddress = new Address();
+        this.practiceAddress = new Address();
+
+    }
 }
 
 class Address {
@@ -13,6 +19,10 @@ class Address {
     city: string;
     state: State;
     zip: string
+
+    constructor() {
+        this.state = new State();
+    }
 }
 
 class State {

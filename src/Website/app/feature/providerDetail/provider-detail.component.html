@@ -1,4 +1,4 @@
-<h2>Provider Detail</h2>
+<h2>Provider</h2>
 <div class="col-3">
     <label class="col-7">NPI:</label> {{provider.npi}}
 </div>
@@ -9,4 +9,52 @@
 
 <div class="col-3">
     <label class="col-7">Last Name:</label> {{provider.lastName}}
+</div>
+
+<h3>Mailing Address</h3>
+
+<div class="col-8">
+    <label class="col-2">Street:</label> {{provider.mailingAddress.streetOne}}
+</div>
+
+<div class="col-8">
+    <label class="col-2">Street Two:</label> {{provider.mailingAddress.streetTwo}}
+</div>
+
+<div class="col-8">
+    <label class="col-2">City:</label> {{provider.mailingAddress.city}}
+</div>
+
+
+<div class="col-8">
+    <label class="col-2">State:</label> {{provider.mailingAddress.state.name}}
+</div>
+
+
+<div class="col-8">
+    <label class="col-2">Zip</label> {{provider.mailingAddress.zip}}
+</div>
+
+<h3>Practice Address</h3>
+
+<div class="col-8">
+    <label class="col-2">Street:</label> {{provider.practiceAddress.streetOne}}
+</div>
+
+<div class="col-8">
+    <label class="col-2">Street Two:</label> {{provider.practiceAddress.streetTwo}}
+</div>
+
+<div class="col-8">
+    <label class="col-2">City:</label> {{provider.practiceAddress.city}}
+</div>
+
+
+<div class="col-8">
+    <label class="col-2">State:</label> {{provider.practiceAddress.state.name}}
+</div>
+
+
+<div class="col-8">
+    <label class="col-2">Zip</label> {{provider.practiceAddress.zip}}
 </div>
