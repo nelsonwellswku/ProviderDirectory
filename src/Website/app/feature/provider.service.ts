@@ -18,14 +18,7 @@ export class ProviderService {
     getProvider(providerId: string): Promise<Provider> {
         return this.http.get(this.ProvidersCollectionUrl + "/" + providerId)
             .toPromise()
-            .then(response => {
-                var provider = new Provider();
-                var data: any = response.json();
-                provider.npi = data.NPI;
-                provider.firstName = data.FirstName;
-                provider.lastName = data.LastName;
-                return provider;
-            })
+            .then(response => response.json())
             .catch(this.handleError);
     }
 
@@ -45,29 +38,7 @@ export class ProviderService {
 
         return this.http.get(url)
             .toPromise()
-            .then(response => {
-                var pagedResult = new PagedResult();
-                pagedResult.items = new Array<Provider>();
-                var responseJson = response.json();
-                
-                for(var i = 0; i < responseJson.Items.length; i++)
-                {
-                    var prov : Provider = {
-                        providerId : responseJson.Items[i].ProviderId,
-                        npi : responseJson.Items[i].NPI,
-                        firstName : responseJson.Items[i].FirstName,
-                        lastName : responseJson.Items[i].LastName
-                    }
-
-                    pagedResult.items.push(prov);
-                }
-
-                pagedResult.currentPage = responseJson.CurrentPage;
-                pagedResult.currentRecordsPerPage = responseJson.CurrentRecordsPerPage;
-                pagedResult.totalItems = responseJson.TotalItems;
-
-                return pagedResult;
-            })
+            .then(response => response.json())
             .catch(this.handleError);
     }
 
