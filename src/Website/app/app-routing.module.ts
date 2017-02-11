@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ListProvidersComponent } from './list-providers.component';
+import { ListProvidersComponent } from './feature/listProviders/list-providers.component';
 import { CreateProviderComponent } from './feature/createProvider/create-provider.component';
 import { ProviderDetailComponent } from './feature/providerDetail/provider-detail.component';
 

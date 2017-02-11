@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Provider } from './feature/provider';
-import { ProviderService } from './feature/provider.service';
-import { PagedResult } from './paged-result';
+import { Provider } from '../provider';
+import { ProviderService } from '../provider.service';
+import { PagedResult } from '../../paged-result';
 
 @Component({
     selector: 'list-providers',
-    templateUrl: 'app/list-providers.component.html',
+    templateUrl: 'app/feature/listProviders/list-providers.component.html',
     providers: [ProviderService]
 })
 export class ListProvidersComponent implements OnInit {

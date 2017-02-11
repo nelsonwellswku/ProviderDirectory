@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ProviderService } from './feature/provider.service';
 import { CreateProviderComponent } from './feature/createProvider/create-provider.component';
 import { ProviderDetailComponent } from './feature/providerDetail/provider-detail.component';
-import { ListProvidersComponent } from './list-providers.component';
+import { ListProvidersComponent } from './feature/listProviders/list-providers.component';
 import { NavigationComponent } from './navigation.component';
 import { PagingComponent } from './paging.component';
 
