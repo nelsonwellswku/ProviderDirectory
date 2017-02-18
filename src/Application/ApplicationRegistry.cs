@@ -48,6 +48,8 @@ namespace Octogami.ProviderDirectory.Application
 			});
 
 			For<IDocumentSession>().Use("Lightweight Session", c => c.GetInstance<IDocumentStore>().LightweightSession());
+
+			For<IStateService>().Use<InMemoryStateService>();
 		}
 	}
 }

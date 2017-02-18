@@ -79,7 +79,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationRegistry.cs" />
+    <Compile Include="Domain\InMemoryStateService.cs" />
+    <Compile Include="Domain\IStateService.cs" />
     <Compile Include="Domain\Provider.cs" />
+    <Compile Include="Domain\State.cs" />
     <Compile Include="Feature\Common\IPaged.cs" />
     <Compile Include="Feature\Common\Paged.cs" />
     <Compile Include="Feature\CreateProvider\CreateProviderHandler.cs" />
