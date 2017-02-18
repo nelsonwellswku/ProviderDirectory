@@ -1,3 +1,5 @@
+import { State } from "./state";
+
 export class Provider{
     providerId?: string;
     npi: string;
@@ -23,9 +25,4 @@ class Address {
     constructor() {
         this.state = new State();
     }
-}
-
-class State {
-    abbreviation: string;
-    name: string;
 }

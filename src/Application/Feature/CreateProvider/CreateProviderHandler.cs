@@ -77,10 +77,12 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 	public class CreateProviderHandler : IRequestHandler<CreateProviderCommand, CreateProviderResponse>
 	{
 		private readonly IDocumentSession _session;
+		private readonly IStateService _stateService;
 
-		public CreateProviderHandler(IDocumentSession session)
+		public CreateProviderHandler(IDocumentSession session, IStateService stateService)
 		{
 			_session = session;
+			_stateService = stateService;
 		}
 
 		public CreateProviderResponse Handle(CreateProviderCommand message)
@@ -99,10 +101,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 					StreetOne = message.MailingAddress?.StreetOne,
 					StreetTwo = message.MailingAddress?.StreetTwo,
 					City = message.MailingAddress?.City,
-					State = new State
-					{
-						Name = message.MailingAddress?.State
-					},
+					State = _stateService.GetState(message.MailingAddress?.State),
 					Zip = message.MailingAddress?.Zip
 				},
 				PracticeAddress = new Domain.Address
@@ -110,10 +109,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 					StreetOne = message.PracticeAddress?.StreetOne,
 					StreetTwo = message.PracticeAddress?.StreetTwo,
 					City = message.PracticeAddress?.City,
-					State = new State
-					{
-						Name = message.PracticeAddress?.State
-					},
+					State = _stateService.GetState(message.PracticeAddress?.State),
 					Zip = message.PracticeAddress?.Zip
 				}
 			};
