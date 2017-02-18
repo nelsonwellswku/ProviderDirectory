@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Octogami.ProviderDirectory.Application.Domain
 {
@@ -87,5 +88,7 @@ namespace Octogami.ProviderDirectory.Application.Domain
 		{
 			return GetState(input).Name != null;
 		}
+
+		public IEnumerable<State> States { get { return _states.Select(x => x.Value).Distinct(); } }
 	}
 }

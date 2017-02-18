@@ -88,6 +88,7 @@
     <Compile Include="Feature\CreateProvider\CreateProviderHandler.cs" />
     <Compile Include="Feature\GetProvider\GetProviderHandler.cs" />
     <Compile Include="Feature\Common\ProviderResponse.cs" />
+    <Compile Include="Feature\GetStates\GetStatesHandler.cs" />
     <Compile Include="Feature\ListProviders\ListProvidersHandler.cs" />
     <Compile Include="Pipeline\ValidationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
