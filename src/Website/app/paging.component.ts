@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { PagedResult } from './paged-result';
 import { Provider } from './feature/provider';
@@ -7,7 +7,7 @@ import { Provider } from './feature/provider';
     selector: 'pages',
     templateUrl: 'app/paging.component.html'
 })
-export class PagingComponent<T> implements OnChanges {
+export class PagingComponent<T> {
 
     pages: number[];
     recordsPerPage: number;
@@ -16,24 +16,21 @@ export class PagingComponent<T> implements OnChanges {
     @Input()
     url: string;
 
-    @Input()
-    pagedResult: PagedResult<T>;
+    _pagedResult : PagedResult<T>;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        for (let propName in changes) {
-            if (propName == "pagedResult") {
-                let changedProp = changes[propName];
-                this.pagedResult = changedProp.currentValue;
-                this.setPagingValues();
-            }
-        }
+    @Input()
+    set pagedResult(pagedResult : PagedResult<T>) {
+        this._pagedResult = pagedResult;
+        this.setPagingValues();
     }
 
-    private setPagingValues(): void {
-        this.currentPage = this.pagedResult.currentPage;
-        this.recordsPerPage = this.pagedResult.currentRecordsPerPage;
+    get pagedResult(): PagedResult<T> { return this._pagedResult; }
 
-        var pageCount = this.pagedResult.totalItems / this.pagedResult.currentRecordsPerPage;
+    private setPagingValues(): void {
+        this.currentPage = this._pagedResult.currentPage;
+        this.recordsPerPage = this._pagedResult.currentRecordsPerPage;
+
+        var pageCount = this._pagedResult.totalItems / this._pagedResult.currentRecordsPerPage;
         this.pages = new Array<number>();
         for (var i = 0; i < pageCount; i++) {
             this.pages.push(i + 1);
