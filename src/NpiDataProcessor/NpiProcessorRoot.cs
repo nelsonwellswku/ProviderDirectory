@@ -5,16 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
+using MediatR;
+using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
 
 namespace Octogami.ProviderDirectory.NpiDataProcessor
 {
 	public class NpiProcessorRoot
 	{
 		private readonly ApplicationConfiguration _configuration;
+		private readonly IMediator _mediator;
 
-		public NpiProcessorRoot(ApplicationConfiguration configuration)
+		public NpiProcessorRoot(ApplicationConfiguration configuration, IMediator mediator)
 		{
 			_configuration = configuration;
+			_mediator = mediator;
 		}
 
 		public void Process()
@@ -25,9 +29,48 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 			{
 				csvReader.Configuration.Delimiter = ",";
 				csvReader.Configuration.HasHeaderRecord = false;
-				var records = csvReader.GetRecords<NpiRow>().Take(10000);
-				var tenThousandRecords = records.ToList();
+				var createCommands = csvReader.GetRecords<NpiRow>()
+					.Skip(1)
+					.Where(x => x.EntityTypeCode == "1")
+					.Take(10000)
+					.Select(ToCreateProviderCommand);
+
+
+				foreach (var command in createCommands)
+				{
+					_mediator.Send(command);
+				}
 			}
+		}
+
+		private CreateProviderCommand ToCreateProviderCommand(NpiRow npiRow)
+		{
+			return new CreateProviderCommand
+			{
+				EntityType = npiRow.EntityTypeCode,
+				EnumerationDate = npiRow.ProviderEnumerationDate,
+				FirstName = npiRow.ProviderFirstName,
+				Gender = npiRow.ProviderGenderCode,
+				LastName = npiRow.ProviderLastNameLegalName,
+				MailingAddress = new Address
+				{
+					StreetOne = npiRow.ProviderFirstLineBusinessMailingAddress,
+					StreetTwo = npiRow.ProviderSecondLineBusinessMailingAddress,
+					City = npiRow.ProviderBusinessMailingAddressCityName,
+					State = npiRow.ProviderBusinessMailingAddressStateName,
+					Zip = npiRow.ProviderBusinessMailingAddressPostalCode
+				},
+				MiddleName = npiRow.ProviderMiddleName,
+				PracticeAddress = new Address
+				{
+					StreetOne = npiRow.ProviderFirstLineBusinessPracticeLocationAddress,
+					StreetTwo = npiRow.ProviderSecondLineBusinessPracticeLocationAddress,
+					City = npiRow.ProviderBusinessPracticeLocationAddressCityName,
+					State = npiRow.ProviderBusinessPracticeLocationAddressStateName,
+					Zip = npiRow.ProviderBusinessPracticeLocationAddressPostalCode
+				},
+				NPI = npiRow.NPI
+			};
 		}
 	}
 }
