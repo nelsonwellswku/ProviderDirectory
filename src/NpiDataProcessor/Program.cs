@@ -1,23 +1,22 @@
-﻿using System.Configuration;
-using System.IO;
-using System.Linq;
-using CsvHelper;
+﻿using Octogami.ProviderDirectory.Application;
+using StructureMap;
 
 namespace Octogami.ProviderDirectory.NpiDataProcessor
 {
-	class Program
+	internal class Program
 	{
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
-			var npiFilePath = ConfigurationManager.AppSettings["npiFilePath"];
-			using (var fileStream = new FileStream(npiFilePath, FileMode.Open))
-			using (var fileReader = new StreamReader(fileStream))
-			using (var csvReader = new CsvReader(fileReader))
+			using (var container = new Container())
 			{
-				csvReader.Configuration.Delimiter = ",";
-				csvReader.Configuration.HasHeaderRecord = false;
-				var records = csvReader.GetRecords<NpiRow>().Take(10000);
-				var tenThousandRecords = records.ToList();
+				container.Configure(x =>
+				{
+					x.AddRegistry<ApplicationRegistry>();
+					x.AddRegistry<NpiDataProcessorRegistry>();
+				});
+
+				var processor = container.GetInstance<NpiProcessorRoot>();
+				processor.Process();
 			}
 		}
 	}
