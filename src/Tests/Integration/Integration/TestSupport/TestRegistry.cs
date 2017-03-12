@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Octogami.ProviderDirectory.Application;
 using Octogami.ProviderDirectory.Tests.Integration.Pipeline;
 using StructureMap;
 
