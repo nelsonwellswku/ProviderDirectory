@@ -47,10 +47,10 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 		{
 			return new CreateProviderCommand
 			{
-				EntityType = npiRow.EntityTypeCode,
+				EntityType = MapEntityType(npiRow.EntityTypeCode),
 				EnumerationDate = npiRow.ProviderEnumerationDate,
 				FirstName = npiRow.ProviderFirstName,
-				Gender = npiRow.ProviderGenderCode,
+				Gender = MapGender(npiRow.ProviderGenderCode),
 				LastName = npiRow.ProviderLastNameLegalName,
 				MailingAddress = new Address
 				{
@@ -71,6 +71,36 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 				},
 				NPI = npiRow.NPI
 			};
+		}
+
+		private string MapGender(string gender)
+		{
+			if (gender.Equals("m", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return "male";
+			}
+
+			if (gender.Equals("f", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return "female";
+			}
+
+			return null;
+		}
+
+		private string MapEntityType(string entityType)
+		{
+			if (entityType == "1")
+			{
+				return "individual";
+			}
+
+			if (entityType == "2")
+			{
+				return "organization";
+			}
+
+			return null;
 		}
 	}
 }
