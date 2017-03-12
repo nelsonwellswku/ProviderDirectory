@@ -31,12 +31,16 @@ namespace Octogami.ProviderDirectory.Application
 			var handlerType = For(typeof(IRequestHandler<,>));
 			handlerType.DecorateAllWith(typeof(ValidationHandler<,>));
 
+			// Configuration
+			For<ApplicationConfiguration>().Use<ApplicationConfiguration>().Singleton();
+
 			// Marten registrations
-			ForSingletonOf<IDocumentStore>().Use("Build the DocumentStore", () =>
+			ForSingletonOf<IDocumentStore>().Use("Build the DocumentStore", ctx =>
 			{
 				return DocumentStore.For(_ =>
 				{
-					_.Connection("host=localhost;database=ProviderDirectory;password=password;username=postgres");
+					var configuration = ctx.GetInstance<ApplicationConfiguration>();
+					_.Connection(configuration.ConnectionString);
 					_.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
 
 					_.Schema.For<Provider>().Index(x => x.NPI, x =>

@@ -23,6 +23,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		{
 			var container = TestContainerFactory.New();
 			var documentStore = container.GetInstance<IDocumentStore>();
+			documentStore.Advanced.PrecompileAllStorage();
 			documentStore.Advanced.Clean.DeleteDocumentsFor(typeof(Provider));
 		}
 
