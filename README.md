@@ -28,3 +28,14 @@ That will cause Marten to create the table used to store provider documents.
 
 Now your ready to write some code. I tend to use Visual Studio for the C# / server-side
 and Visual Studio Code for the TypeScript / front-end code.
+
+Importing Data
+-------------
+For now, this app targets the NPI data from January 2017. You'll need CSV files that will ultimately imported into the app.
+
+* [NPI Data Set, January 2017](http://download.cms.gov/nppes/NPPES_Data_Dissemination_March_2017.zip)
+* [Taxonomy Codes, January 2017](http://www.nucc.org/images/stories/CSV/nucc_taxonomy_170.csv)
+
+Unzip the NPI data set.
+
+// TODO: Finish instructions regarding how to run the console app to import the data
