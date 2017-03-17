@@ -24,6 +24,19 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 
 		public void Process()
 		{
+			using (var fileStream = new FileStream(_configuration.TaxonomyFilePath, FileMode.Open))
+			using (var fileReader = new StreamReader(fileStream))
+			using (var csvReader = new CsvReader(fileReader))
+			{
+				csvReader.Configuration.Delimiter = ",";
+				csvReader.Configuration.HasHeaderRecord = false;
+
+				var taxonomies = csvReader.GetRecords<TaxonomyRow>()
+					.Skip(HeaderRow);
+
+				// TODO: Convert taxonomies to command and send to the mediator
+			}
+
 			using (var fileStream = new FileStream(_configuration.NpiFilePath, FileMode.Open))
 			using (var fileReader = new StreamReader(fileStream))
 			using (var csvReader = new CsvReader(fileReader))

@@ -17,11 +17,11 @@ Development
 
 Create a new database in Postgres with the username _postgress_ and the password _password_.
 
-In Visual Studio, build the solution to restore the Nuget packages and then run the Web project that hosts the API. 
+In Visual Studio, build the solution to restore the Nuget packages and then run the Web project that hosts the API.
 
 In PowerShell, navigate to the /src/website directory and run _npm install_. Next, run _npm start_.
 This will start the webserver, serve the index.html file, hook up browser sync, and open your
-browser to the website. 
+browser to the website.
 
 From there, create a new provider from the _create provider_ page.
 That will cause Marten to create the table used to store provider documents.
