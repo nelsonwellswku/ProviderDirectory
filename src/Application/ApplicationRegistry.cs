@@ -48,6 +48,12 @@ namespace Octogami.ProviderDirectory.Application
 						x.Casing = ComputedIndex.Casings.Lower;
 						x.IsUnique = true;
 					});
+
+					_.Schema.For<Taxonomy>().Index(x => x.TaxonomyCode, x =>
+					{
+						x.Casing = ComputedIndex.Casings.Lower;
+						x.IsUnique = true;
+					});
 				});
 			});
 

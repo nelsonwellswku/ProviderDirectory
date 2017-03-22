@@ -31,6 +31,12 @@ namespace Octogami.ProviderDirectory.Application.Domain
 		public Address MailingAddress { get; set; }
 
 		public Address PracticeAddress { get; set; }
+
+		/// <summary>
+		/// Primary taxonomy; used to load a related taxonomy document
+		/// </summary>
+		public Guid PrimaryTaxonomyId { get; set; }
+
 	}
 
 	public enum Gender
