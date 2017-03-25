@@ -4,6 +4,7 @@ using System.Linq;
 using CsvHelper;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
+using Octogami.ProviderDirectory.Application.Feature.CreateTaxonomy;
 
 namespace Octogami.ProviderDirectory.NpiDataProcessor
 {
@@ -24,6 +25,28 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 
 		public void Process()
 		{
+			Console.WriteLine("Importing taxonomies...");
+
+			using (var fileStream = new FileStream(_configuration.TaxonomyFilePath, FileMode.Open))
+			using (var fileReader = new StreamReader(fileStream))
+			using (var csvReader = new CsvReader(fileReader))
+			{
+				csvReader.Configuration.Delimiter = ",";
+				csvReader.Configuration.HasHeaderRecord = false;
+
+				var createCommands = csvReader.GetRecords<TaxonomyRow>()
+					.Skip(HeaderRow)
+					.Select(ToCreateTaxonomyCommand);
+
+				foreach (var command in createCommands)
+				{
+					_mediator.Send(command);
+				}
+			}
+
+			Console.WriteLine("Taxonomies imported.");
+
+			Console.WriteLine("Importing providers...");
 			using (var fileStream = new FileStream(_configuration.NpiFilePath, FileMode.Open))
 			using (var fileReader = new StreamReader(fileStream))
 			using (var csvReader = new CsvReader(fileReader))
@@ -41,6 +64,8 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 					_mediator.Send(command);
 				}
 			}
+
+			Console.WriteLine("Providers imported.");
 		}
 
 		private static bool IsIndividual(NpiRow row)
@@ -75,6 +100,19 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 					Zip = npiRow.ProviderBusinessPracticeLocationAddressPostalCode
 				},
 				NPI = npiRow.NPI
+			};
+		}
+
+		private static CreateTaxonomyCommand ToCreateTaxonomyCommand(TaxonomyRow row)
+		{
+			return new CreateTaxonomyCommand
+			{
+				Grouping = row.Grouping,
+				Definition = row.Definition,
+				Notes = row.Notes,
+				Classification = row.Classification,
+				Specialization = row.Specialization,
+				TaxonomyCode = row.TaxonomyCode
 			};
 		}
 

@@ -6,6 +6,8 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 	{
 		public string NpiFilePath => ConfigurationManager.AppSettings["NpiFilePath"];
 
+		public string TaxonomyFilePath => ConfigurationManager.AppSettings["TaxonomyFilePath"];
+
 		public string ConnectionString => ConfigurationManager.AppSettings["ConnectionString"];
 
 		public string MaxRecordsToImport => ConfigurationManager.AppSettings["MaxRecordsToImport"];
