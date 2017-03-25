@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Feature\CreateProviderTests.cs" />
+    <Compile Include="Feature\CreateTaxonomyTests.cs" />
     <Compile Include="Feature\GetProviderTests.cs" />
     <Compile Include="Feature\GetStatesTests.cs" />
     <Compile Include="Feature\ListProviderTests.cs" />

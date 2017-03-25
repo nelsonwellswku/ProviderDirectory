@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 using Marten;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
@@ -27,6 +28,23 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateTaxonomy
 	public class CreateTaxonomyResponse
 	{
 		public Guid TaxonomyId { get; set; }
+	}
+
+	public class CreateTaxonomyValidator : AbstractValidator<CreateTaxonomyCommand>
+	{
+		private readonly IDocumentSession _documentSession;
+
+		public CreateTaxonomyValidator(IDocumentSession documentSession)
+		{
+			_documentSession = documentSession;
+
+			RuleFor(x => x.TaxonomyCode).Must(BeUnique).WithMessage("Command has a duplicate taxonomy code.");
+		}
+
+		private bool BeUnique(string taxonomyCode)
+		{
+			return ! _documentSession.Query<Taxonomy>().Any(x => x.TaxonomyCode == taxonomyCode);
+		}
 	}
 
 	public class CreateTaxonomyHandler : IRequestHandler<CreateTaxonomyCommand, CreateTaxonomyResponse>
