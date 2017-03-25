@@ -19,7 +19,7 @@ namespace Octogami.ProviderDirectory.Application.Pipeline
 		public TResponse Handle(TRequest message)
 		{
 			var failures = _validators
-				.Select(x => x.Validate(message))
+				.Select(x => x.Validate(new ValidationContext<TRequest>(message)))
 				.SelectMany(x => x.Errors)
 				.Where(x => x != null)
 				.ToList();
