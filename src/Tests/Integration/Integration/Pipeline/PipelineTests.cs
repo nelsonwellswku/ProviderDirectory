@@ -41,10 +41,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Pipeline
 	{
 		public bool WasValidated { get; private set; }
 
-		public override ValidationResult Validate(TestCommand instance)
+		public override ValidationResult Validate(ValidationContext<TestCommand> validationContext)
 		{
 			WasValidated = true;
-			return base.Validate(instance);
+			return base.Validate(validationContext);
 		}
 	}
 
