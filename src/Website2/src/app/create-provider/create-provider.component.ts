@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProviderService } from 'app/services/provider.service';
 import { StateService } from 'app/services/state.service';
-import { CreateProviderForm } from 'app/services/create-provider-form';
 import { State } from 'app/services/state';
 import { Router } from '@angular/router';
+import { CreateProviderCommand } from "app/services/create-provider-command";
 
 @Component({
   selector: 'app-create-provider',
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CreateProviderComponent implements OnInit {
 
-  provider: CreateProviderForm;
+  provider: CreateProviderCommand;
     states: State[];
 
     constructor(
@@ -21,10 +21,10 @@ export class CreateProviderComponent implements OnInit {
         private stateService: StateService,
         private router: Router
     ) {
-        this.provider = new CreateProviderForm();
+        this.provider = new CreateProviderCommand();
     }
 
-    createProvider(form: CreateProviderForm): void {
+    createProvider(form: CreateProviderCommand): void {
         this.providerService.createProvider(form)
             .then(x => this.router.navigate(['providers', x]));
     }

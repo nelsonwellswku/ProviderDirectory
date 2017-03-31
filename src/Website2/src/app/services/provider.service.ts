@@ -4,8 +4,9 @@ import { Provider } from 'app/services/provider';
 import { PagedResult } from 'app/paging/paged-result';
 
 import 'rxjs/add/operator/toPromise';
-import { CreateProviderForm } from 'app/services/create-provider-form';
+
 import { GetProvidersQuery } from 'app/services/get-providers-query';
+import { CreateProviderCommand } from "app/services/create-provider-command";
 
 @Injectable()
 export class ProviderService {
@@ -21,7 +22,7 @@ export class ProviderService {
             .catch(this.handleError);
     }
 
-    createProvider(command: CreateProviderForm): Promise<string> {
+    createProvider(command: CreateProviderCommand): Promise<string> {
         return this.http.post(this.ProvidersCollectionUrl, command)
             .toPromise()
             .then(response => response.json().providerId)

@@ -1,4 +1,4 @@
-export class CreateProviderForm {
+export class CreateProviderCommand {
     npi: string;
     firstName: string;
     lastName: string;
