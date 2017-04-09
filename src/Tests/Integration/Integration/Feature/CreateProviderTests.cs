@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -6,6 +7,7 @@ using MediatR;
 using NUnit.Framework;
 using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
+using Octogami.ProviderDirectory.Application.Feature.GetProvider;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
 using StructureMap;
 using Address = Octogami.ProviderDirectory.Application.Feature.CreateProvider.Address;
@@ -76,7 +78,28 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			// Assert
 			Assert.AreNotEqual(default(Guid), response.ProviderId);
 
-			// TODO: Once implemented, use get provider query to assert that everything was saved correctly
+			var createdProvider =
+				_container.GetInstance<IDocumentSession>()
+					.Query<Provider>()
+					.First(x => x.ProviderId == response.ProviderId);
+
+			createdProvider.NPI.Should().Be(ValidCommand.NPI);
+			createdProvider.FirstName.Should().Be(ValidCommand.FirstName);
+			createdProvider.LastName.Should().Be(ValidCommand.LastName);
+
+			createdProvider.MailingAddress.StreetOne.Should().Be(ValidCommand.MailingAddress.StreetOne);
+			createdProvider.MailingAddress.StreetTwo.Should().Be(ValidCommand.MailingAddress.StreetTwo);
+			createdProvider.MailingAddress.City.Should().Be(ValidCommand.MailingAddress.City);
+			createdProvider.MailingAddress.State.Abbreviation.Should().Be("TN");
+			createdProvider.MailingAddress.State.Name.Should().Be("Tennessee");
+			createdProvider.MailingAddress.Zip.Should().Be(ValidCommand.MailingAddress.Zip);
+
+			createdProvider.PracticeAddress.StreetOne.Should().Be(ValidCommand.PracticeAddress.StreetOne);
+			createdProvider.PracticeAddress.StreetTwo.Should().Be(ValidCommand.PracticeAddress.StreetTwo);
+			createdProvider.PracticeAddress.City.Should().Be(ValidCommand.PracticeAddress.City);
+			createdProvider.PracticeAddress.State.Abbreviation.Should().Be("TN");
+			createdProvider.PracticeAddress.State.Name.Should().Be("Tennessee");
+			createdProvider.PracticeAddress.Zip.Should().Be(ValidCommand.PracticeAddress.Zip);
 		}
 
 		[Test]
