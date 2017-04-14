@@ -2,6 +2,7 @@ export class CreateProviderCommand {
     npi: string;
     firstName: string;
     lastName: string;
+    primaryTaxonomyCode: string;
 
     mailingAddress: Address;
     practiceAddress: Address;
