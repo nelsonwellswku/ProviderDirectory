@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentValidation;
 using Marten;
+using Marten.Services.Includes;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.Common;
@@ -40,13 +41,18 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 
 		public ProviderResponse Handle(GetProviderQuery message)
 		{
-			var provider = _session.Load<Provider>(message.ProviderId);
+			Taxonomy primaryTaxonomy = null;
+			var provider = _session.Query<Provider>()
+					.Include<Taxonomy>(p => p.PrimaryTaxonomyId, t => primaryTaxonomy = t, JoinType.LeftOuter)
+					.Single(x => x.ProviderId == message.ProviderId);
+
 			return new ProviderResponse
 			{
 				ProviderId = provider.ProviderId,
 				NPI = provider.NPI,
 				FirstName = provider.FirstName,
 				LastName = provider.LastName,
+				PrimaryTaxonomy = primaryTaxonomy == null ? new TaxonomyResponse() : Map(primaryTaxonomy),
 				MailingAddress = new Common.Address
 				{
 					StreetOne = provider.MailingAddress.StreetOne,
@@ -71,6 +77,20 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 					},
 					Zip = provider.PracticeAddress.Zip
 				}
+			};
+		}
+
+		private TaxonomyResponse Map(Taxonomy taxonomy)
+		{
+			return new TaxonomyResponse
+			{
+				TaxonomyCode = taxonomy.TaxonomyCode,
+				TaxonomyId = taxonomy.TaxonomyId,
+				Definition = taxonomy.Definition,
+				Notes = taxonomy.Notes,
+				Grouping = taxonomy.Grouping,
+				Specialization = taxonomy.Specialization,
+				Classification = taxonomy.Classification
 			};
 		}
 	}
