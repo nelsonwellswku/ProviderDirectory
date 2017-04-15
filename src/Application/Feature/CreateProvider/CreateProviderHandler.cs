@@ -24,6 +24,8 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 
 		public string EnumerationDate { get; set; }
 
+		public string PrimaryTaxonomyCode { get; set; }
+
 		public Address MailingAddress { get; set; }
 
 		public Address PracticeAddress { get; set; }
@@ -66,11 +68,18 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 
 			RuleFor(x => x.Gender).Matches("^(male|female|other|unknown)$");
 			RuleFor(x => x.EntityType).Matches("^(individual|organization)$");
+
+			RuleFor(x => x.PrimaryTaxonomyCode).Must(BeEmptyOrExist);
 		}
 
 		private bool BeUnique(string npi)
 		{
 			return _session.Query<Provider>().Any(x => x.NPI == npi) == false;
+		}
+
+		private bool BeEmptyOrExist(string taxonomyCode)
+		{
+			return string.IsNullOrEmpty(taxonomyCode) || _session.Query<Taxonomy>().Any(x => x.TaxonomyCode == taxonomyCode);
 		}
 	}
 
@@ -87,6 +96,16 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 
 		public CreateProviderResponse Handle(CreateProviderCommand message)
 		{
+			var taxonomyId = default(Guid);
+			if (string.IsNullOrEmpty(message.PrimaryTaxonomyCode) == false)
+			{
+				taxonomyId =
+					_session.Query<Taxonomy>()
+						.Where(x => x.TaxonomyCode == message.PrimaryTaxonomyCode)
+						.Select(x => x.TaxonomyId)
+						.Single();
+			}
+
 			var provider = new Provider
 			{
 				NPI = message.NPI,
@@ -96,6 +115,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 				MiddleName = message.MiddleName,
 				LastName = message.LastName,
 				Gender = message.Gender == null ? Gender.Unknown : (Gender) Enum.Parse(typeof(Gender), message.Gender, true),
+				PrimaryTaxonomyId = taxonomyId,
 				MailingAddress = new Domain.Address
 				{
 					StreetOne = message.MailingAddress?.StreetOne,
