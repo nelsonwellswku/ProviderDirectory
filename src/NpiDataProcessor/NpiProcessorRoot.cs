@@ -82,6 +82,7 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 				FirstName = npiRow.ProviderFirstName,
 				Gender = MapGender(npiRow.ProviderGenderCode),
 				LastName = npiRow.ProviderLastNameLegalName,
+				PrimaryTaxonomyCode = npiRow.HealthcareProviderTaxonomyCode1,
 				MailingAddress = new Address
 				{
 					StreetOne = npiRow.ProviderFirstLineBusinessMailingAddress,

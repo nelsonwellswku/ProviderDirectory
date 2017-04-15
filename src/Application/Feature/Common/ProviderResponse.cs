@@ -12,6 +12,8 @@ namespace Octogami.ProviderDirectory.Application.Feature.Common
 
 		public string LastName { get; set; }
 
+		public TaxonomyResponse PrimaryTaxonomy { get; set; }
+
 		public Address MailingAddress { get; set; }
 
 		public Address PracticeAddress { get; set; }

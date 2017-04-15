@@ -6,7 +6,7 @@ import { PagedResult } from 'app/paging/paged-result';
 import 'rxjs/add/operator/toPromise';
 
 import { GetProvidersQuery } from 'app/services/get-providers-query';
-import { CreateProviderCommand } from "app/services/create-provider-command";
+import { CreateProviderCommand } from 'app/services/create-provider-command';
 
 @Injectable()
 export class ProviderService {
