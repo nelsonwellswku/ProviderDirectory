@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
@@ -17,23 +18,23 @@ namespace Octogami.ProviderDirectory.Web.Controllers.api
 		}
 
 		[Route("api/Providers")]
-		public IHttpActionResult PostProvider(CreateProviderCommand command)
+		public async Task<IHttpActionResult> PostProvider(CreateProviderCommand command)
 		{
-			var response = _mediator.Send(command);
+			var response = await _mediator.Send(command);
 			return Ok(response);
 		}
 
 		[Route("api/Providers/{providerId}")]
-		public IHttpActionResult GetProvider(Guid providerId)
+		public async Task<IHttpActionResult> GetProvider(Guid providerId)
 		{
-			var response = _mediator.Send(new GetProviderQuery {ProviderId = providerId});
+			var response = await _mediator.Send(new GetProviderQuery {ProviderId = providerId});
 			return Ok(response);
 		}
 
 		[Route("api/Providers")]
-		public IHttpActionResult GetProviders([FromUri]ListProvidersQuery query)
+		public async Task<IHttpActionResult> GetProviders([FromUri]ListProvidersQuery query)
 		{
-			var response = _mediator.Send(query ?? new ListProvidersQuery());
+			var response = await _mediator.Send(query ?? new ListProvidersQuery());
 			return Ok(response);
 		}
 	}

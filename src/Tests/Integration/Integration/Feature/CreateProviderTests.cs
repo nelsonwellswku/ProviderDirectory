@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -66,14 +67,14 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void CanCreateProvider_HappyPath()
+		public async Task CanCreateProvider_HappyPath()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
 			var command = ValidCommand;
 
 			// Act
-			var response = mediator.Send(command);
+			var response = await mediator.Send(command);
 
 			// Assert
 			Assert.AreNotEqual(default(Guid), response.ProviderId);

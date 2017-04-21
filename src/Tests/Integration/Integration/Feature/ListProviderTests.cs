@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
 using Marten;
@@ -69,13 +70,13 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void ListProviders_HappyPath()
+		public async Task ListProviders_HappyPath()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<Mediator>();
 
 			// Act
-			var result = mediator.Send(new ListProvidersQuery());
+			var result = await mediator.Send(new ListProvidersQuery());
 
 			// Assert
 			result.CurrentPage.Should().Be(1);
@@ -85,19 +86,19 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void ListProviders_SimplestPaging()
+		public async Task ListProviders_SimplestPaging()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<Mediator>();
 
 			// Act
-			var resultOne = mediator.Send(new ListProvidersQuery
+			var resultOne = await mediator.Send(new ListProvidersQuery
 			{
 				Page = 1,
 				RecordsPerPage = 2
 			});
 
-			var resultTwo = mediator.Send(new ListProvidersQuery
+			var resultTwo = await mediator.Send(new ListProvidersQuery
 			{
 				Page = 2,
 				RecordsPerPage = 2

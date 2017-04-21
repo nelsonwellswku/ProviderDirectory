@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -40,11 +41,11 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void GetProvider_HappyPath()
+		public async Task GetProvider_HappyPath()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
-			var providerId = mediator.Send(new CreateProviderCommand
+			var providerId = (await mediator.Send(new CreateProviderCommand
 			{
 				NPI = "123",
 				FirstName = "Elijah",
@@ -54,10 +55,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 				EnumerationDate = DateTime.Now.ToString(CultureInfo.InvariantCulture),
 				MailingAddress = new Address(),
 				PracticeAddress = new Address()
-			}).ProviderId;
+			})).ProviderId;
 
 			// Act
-			var result = mediator.Send(new GetProviderQuery {ProviderId = providerId});
+			var result = await mediator.Send(new GetProviderQuery {ProviderId = providerId});
 
 			// Assert
 			result.ProviderId.Should().Be(providerId);
