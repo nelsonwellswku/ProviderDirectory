@@ -181,7 +181,7 @@
     <Compile Include="Feature\GetStates\GetStatesHandler.cs" />
     <Compile Include="Feature\GetTaxonomies\GetTaxonomyHandler.cs" />
     <Compile Include="Feature\ListProviders\ListProvidersHandler.cs" />
-    <Compile Include="Pipeline\ValidationHandler.cs" />
+    <Compile Include="Pipeline\ValidationBehavior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

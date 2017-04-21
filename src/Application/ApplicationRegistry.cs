@@ -28,8 +28,7 @@ namespace Octogami.ProviderDirectory.Application
 			For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => t => ctx.GetInstance(t));
 			For<MultiInstanceFactory>().Use<MultiInstanceFactory>(ctx => t => ctx.GetAllInstances(t));
 
-			var handlerType = For(typeof(IRequestHandler<,>));
-			handlerType.DecorateAllWith(typeof(ValidationHandler<,>));
+			For(typeof(IPipelineBehavior<,>)).Add(typeof(ValidationBehavior<,>));
 
 			// Configuration
 			For<ApplicationConfiguration>().Use<ApplicationConfiguration>().Singleton();

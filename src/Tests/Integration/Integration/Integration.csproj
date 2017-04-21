@@ -184,10 +184,8 @@
     <Compile Include="Feature\GetProviderTests.cs" />
     <Compile Include="Feature\GetStatesTests.cs" />
     <Compile Include="Feature\ListProviderTests.cs" />
-    <Compile Include="Pipeline\PipelineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSupport\TestContainer.cs" />
-    <Compile Include="TestSupport\TestRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -199,6 +197,7 @@
       <Name>Application</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
