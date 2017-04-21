@@ -19,6 +19,7 @@ namespace Octogami.ProviderDirectory.Application
 				scanner.WithDefaultConventions();
 				scanner.ConnectImplementationsToTypesClosing(typeof(IRequestHandler<,>));
 				scanner.ConnectImplementationsToTypesClosing(typeof(IAsyncRequestHandler<,>));
+				scanner.ConnectImplementationsToTypesClosing(typeof(ICancellableAsyncRequestHandler<,>));
 				scanner.ConnectImplementationsToTypesClosing(typeof(INotificationHandler<>));
 				scanner.ConnectImplementationsToTypesClosing(typeof(IAsyncNotificationHandler<>));
 				scanner.ConnectImplementationsToTypesClosing(typeof(IValidator<>));

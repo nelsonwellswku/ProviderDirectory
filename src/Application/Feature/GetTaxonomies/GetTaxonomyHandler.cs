@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Marten;
 using Marten.Linq;
 using MediatR;
@@ -21,7 +23,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetTaxonomies
 		public int RecordsPerPage { get; set; }
 	}
 
-	public class GetTaxonomiesHandler : IRequestHandler<GetTaxonomiesQuery, IPaged<TaxonomyResponse>>
+	public class GetTaxonomiesHandler : ICancellableAsyncRequestHandler<GetTaxonomiesQuery, IPaged<TaxonomyResponse>>
 	{
 		private readonly IDocumentSession _session;
 
@@ -30,14 +32,14 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetTaxonomies
 			_session = session;
 		}
 
-		public IPaged<TaxonomyResponse> Handle(GetTaxonomiesQuery message)
+		public async Task<IPaged<TaxonomyResponse>> Handle(GetTaxonomiesQuery message, CancellationToken cancellationToken)
 		{
 			QueryStatistics stats;
-			var results = _session.Query<Taxonomy>()
+			var results = await _session.Query<Taxonomy>()
 				.Stats(out stats)
 				.Skip((message.Page - 1) * message.RecordsPerPage)
 				.Take(message.RecordsPerPage)
-				.ToList();
+				.ToListAsync(cancellationToken);
 
 			return new Paged<TaxonomyResponse>(results.Select(MapToResponse), stats.TotalResults, message.Page, message.RecordsPerPage);
 		}

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Feature.Common;
@@ -16,9 +17,9 @@ namespace Octogami.ProviderDirectory.Web.Controllers.api
 		}
 
 		[Route("api/taxonomy")]
-		public Task<IPaged<TaxonomyResponse>> GetTaxonomies([FromUri]GetTaxonomiesQuery query)
+		public Task<IPaged<TaxonomyResponse>> GetTaxonomies([FromUri]GetTaxonomiesQuery query, CancellationToken cancellationToken)
 		{
-			return _mediator.Send(query ?? new GetTaxonomiesQuery());
+			return _mediator.Send(query ?? new GetTaxonomiesQuery(), cancellationToken);
 		}
 	}
 }
