@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using Marten;
@@ -47,7 +48,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateTaxonomy
 		}
 	}
 
-	public class CreateTaxonomyHandler : IRequestHandler<CreateTaxonomyCommand, CreateTaxonomyResponse>
+	public class CreateTaxonomyHandler : ICancellableAsyncRequestHandler<CreateTaxonomyCommand, CreateTaxonomyResponse>
 	{
 		private readonly IDocumentSession _session;
 
@@ -57,7 +58,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateTaxonomy
 			_session = session;
 		}
 
-		public CreateTaxonomyResponse Handle(CreateTaxonomyCommand message)
+		public async Task<CreateTaxonomyResponse> Handle(CreateTaxonomyCommand message, CancellationToken cancellationToken)
 		{
 			var taxonomy = new Taxonomy
 			{
@@ -70,7 +71,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateTaxonomy
 			};
 
 			_session.Store(taxonomy);
-			_session.SaveChanges();
+			await _session.SaveChangesAsync(cancellationToken);
 
 			return new CreateTaxonomyResponse
 			{

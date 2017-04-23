@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
 using Marten;
 using Marten.Linq;
@@ -31,7 +33,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.ListProviders
 		}
 	}
 
-	public class ListProvidersQueryHandler : IRequestHandler<ListProvidersQuery, IPaged<ProviderResponse>>
+	public class ListProvidersQueryHandler : ICancellableAsyncRequestHandler<ListProvidersQuery, IPaged<ProviderResponse>>
 	{
 		private readonly IDocumentSession _session;
 
@@ -40,14 +42,14 @@ namespace Octogami.ProviderDirectory.Application.Feature.ListProviders
 			_session = session;
 		}
 
-		public IPaged<ProviderResponse> Handle(ListProvidersQuery message)
+		public async Task<IPaged<ProviderResponse>> Handle(ListProvidersQuery message, CancellationToken cancellationToken)
 		{
 			QueryStatistics stats;
-			var results = _session.Query<Provider>()
+			var results = await _session.Query<Provider>()
 				.Stats(out stats)
 				.Skip((message.Page - 1) * message.RecordsPerPage)
 				.Take(message.RecordsPerPage)
-				.ToList();
+				.ToListAsync(cancellationToken);
 
 			return new Paged<ProviderResponse>(results.Select(x => new ProviderResponse
 			{

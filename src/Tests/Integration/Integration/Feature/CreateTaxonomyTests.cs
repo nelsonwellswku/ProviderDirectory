@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -38,7 +39,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void CanCreateNewTaxonomy()
+		public async Task CanCreateNewTaxonomy()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
@@ -53,7 +54,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			};
 
 			// Act
-			var result = mediator.Send(command);
+			var result = await mediator.Send(command);
 
 			// Assert
 			result.TaxonomyId.Should().NotBeEmpty();
@@ -71,18 +72,18 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void CanNotCreateTaxonomiesWithDuplicateCodes()
+		public async Task CanNotCreateTaxonomiesWithDuplicateCodes()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
 			var command = new CreateTaxonomyCommand {TaxonomyCode = "ABC"};
-			mediator.Send(command);
+			await mediator.Send(command);
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>().And.Message.Contains("duplicate taxonomy code").Should().BeTrue();
+			func.ShouldThrow<ValidationException>().And.Message.Contains("duplicate taxonomy code").Should().BeTrue();
 		}
 	}
 }

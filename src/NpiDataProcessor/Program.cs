@@ -1,4 +1,5 @@
-﻿using Octogami.ProviderDirectory.Application;
+﻿using System.Threading.Tasks;
+using Octogami.ProviderDirectory.Application;
 using StructureMap;
 
 namespace Octogami.ProviderDirectory.NpiDataProcessor
@@ -15,9 +16,14 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 					x.AddRegistry<NpiDataProcessorRegistry>();
 				});
 
-				var processor = container.GetInstance<NpiProcessorRoot>();
-				processor.Process();
+				ProcessAsync(container).Wait();
 			}
+		}
+
+		private static async Task ProcessAsync(IContainer container)
+		{
+			var processor = container.GetInstance<NpiProcessorRoot>();
+			await processor.Process();
 		}
 	}
 }

@@ -43,8 +43,8 @@
       <HintPath>..\packages\Marten.1.4.1\lib\net46\Marten.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MediatR, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MediatR.2.1.0\lib\net45\MediatR.dll</HintPath>
+    <Reference Include="MediatR, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MediatR.3.0.1\lib\net45\MediatR.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
@@ -181,7 +181,7 @@
     <Compile Include="Feature\GetStates\GetStatesHandler.cs" />
     <Compile Include="Feature\GetTaxonomies\GetTaxonomyHandler.cs" />
     <Compile Include="Feature\ListProviders\ListProvidersHandler.cs" />
-    <Compile Include="Pipeline\ValidationHandler.cs" />
+    <Compile Include="Pipeline\ValidationBehavior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

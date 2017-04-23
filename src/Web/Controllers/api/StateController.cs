@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Feature.GetStates;
@@ -17,7 +18,7 @@ namespace Octogami.ProviderDirectory.Web.Controllers.api
 
 		[Route("api/states")]
 
-		public IEnumerable<GetStatesResponse> GetStates()
+		public Task<IEnumerable<GetStatesResponse>> GetStates()
 		{
 			var result = _mediator.Send(new GetStatesRequest());
 			return result;

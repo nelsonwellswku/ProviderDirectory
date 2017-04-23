@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
 using Marten;
 using Marten.Util;
@@ -83,7 +85,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 		}
 	}
 
-	public class CreateProviderHandler : IRequestHandler<CreateProviderCommand, CreateProviderResponse>
+	public class CreateProviderHandler : ICancellableAsyncRequestHandler<CreateProviderCommand, CreateProviderResponse>
 	{
 		private readonly IDocumentSession _session;
 		private readonly IStateService _stateService;
@@ -94,16 +96,16 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 			_stateService = stateService;
 		}
 
-		public CreateProviderResponse Handle(CreateProviderCommand message)
+		public async Task<CreateProviderResponse> Handle(CreateProviderCommand message, CancellationToken cancellationToken)
 		{
 			var taxonomyId = default(Guid);
 			if (string.IsNullOrEmpty(message.PrimaryTaxonomyCode) == false)
 			{
 				taxonomyId =
-					_session.Query<Taxonomy>()
+					await _session.Query<Taxonomy>()
 						.Where(x => x.TaxonomyCode == message.PrimaryTaxonomyCode)
 						.Select(x => x.TaxonomyId)
-						.Single();
+						.SingleAsync(cancellationToken);
 			}
 
 			var provider = new Provider
@@ -135,7 +137,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.CreateProvider
 			};
 
 			_session.Store(provider);
-			_session.SaveChanges();
+			await _session.SaveChangesAsync(cancellationToken);
 
 			return new CreateProviderResponse {ProviderId = provider.ProviderId};
 		}

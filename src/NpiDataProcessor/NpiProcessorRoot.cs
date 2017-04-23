@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using CsvHelper;
 using MediatR;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
@@ -23,7 +24,7 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 
 		private int MaxRecordsToImport => int.Parse(_configuration.MaxRecordsToImport);
 
-		public void Process()
+		public async Task Process()
 		{
 			Console.WriteLine("Importing taxonomies...");
 
@@ -40,7 +41,7 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 
 				foreach (var command in createCommands)
 				{
-					_mediator.Send(command);
+					await _mediator.Send(command);
 				}
 			}
 
@@ -61,7 +62,7 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 
 				foreach (var command in createCommands)
 				{
-					_mediator.Send(command);
+					await _mediator.Send(command);
 				}
 			}
 

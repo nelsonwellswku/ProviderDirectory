@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -7,7 +8,6 @@ using MediatR;
 using NUnit.Framework;
 using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
-using Octogami.ProviderDirectory.Application.Feature.GetProvider;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
 using StructureMap;
 using Address = Octogami.ProviderDirectory.Application.Feature.CreateProvider.Address;
@@ -66,14 +66,14 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void CanCreateProvider_HappyPath()
+		public async Task CanCreateProvider_HappyPath()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
 			var command = ValidCommand;
 
 			// Act
-			var response = mediator.Send(command);
+			var response = await mediator.Send(command);
 
 			// Assert
 			Assert.AreNotEqual(default(Guid), response.ProviderId);
@@ -111,14 +111,14 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.NPI = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 
 		[Test]
-		public void DuplicateNPI_FailsValidation()
+		public async Task DuplicateNPI_FailsValidation()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
@@ -126,8 +126,8 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.NPI = "QWERTY";
 
 			// Act
-			mediator.Send(command);
-			Action act = () => mediator.Send(command);
+			await mediator.Send(command);
+			Func<Task> act = async () => await mediator.Send(command);
 
 			// Assert
 			act.ShouldThrow<ValidationException>();
@@ -142,10 +142,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.FirstName = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = () => mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 
 		[Test]
@@ -157,10 +157,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.LastName = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 	}
 }
