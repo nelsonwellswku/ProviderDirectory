@@ -17,11 +17,11 @@ namespace Octogami.ProviderDirectory.Application.Pipeline
 			_validators = validators;
 		}
 
-		public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next)
+		public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next)
 		{
 			var failures = _validators
-				.Select(x => x.Validate(new ValidationContext<TRequest>(request)))
-				.SelectMany(x => x.Errors)
+				.Select(async x => await x.ValidateAsync(new ValidationContext<TRequest>(request)))
+				.SelectMany(x => x.Result.Errors)
 				.Where(x => x != null)
 				.ToList();
 
@@ -30,7 +30,7 @@ namespace Octogami.ProviderDirectory.Application.Pipeline
 				throw new ValidationException(failures);
 			}
 
-			return next();
+			return await next();
 		}
 	}
 }

@@ -80,10 +80,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			mediator.Send(command);
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = () => mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>().And.Message.Contains("duplicate taxonomy code").Should().BeTrue();
+			func.ShouldThrow<ValidationException>().And.Message.Contains("duplicate taxonomy code").Should().BeTrue();
 		}
 	}
 }

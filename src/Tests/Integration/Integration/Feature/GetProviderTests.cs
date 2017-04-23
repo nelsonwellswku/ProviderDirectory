@@ -74,10 +74,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			var mediator = _container.GetInstance<IMediator>();
 
 			// Act
-			Action act = () => mediator.Send(new GetProviderQuery {ProviderId = Guid.NewGuid()});
+			Func<Task> func = async () => await mediator.Send(new GetProviderQuery {ProviderId = Guid.NewGuid()});
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 	}
 }

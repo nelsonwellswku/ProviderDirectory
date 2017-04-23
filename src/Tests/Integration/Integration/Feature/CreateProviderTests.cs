@@ -8,7 +8,6 @@ using MediatR;
 using NUnit.Framework;
 using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
-using Octogami.ProviderDirectory.Application.Feature.GetProvider;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
 using StructureMap;
 using Address = Octogami.ProviderDirectory.Application.Feature.CreateProvider.Address;
@@ -112,10 +111,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.NPI = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 
 		[Test]
@@ -128,7 +127,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 
 			// Act
 			mediator.Send(command);
-			Action act = () => mediator.Send(command);
+			Func<Task> act = async () => await mediator.Send(command);
 
 			// Assert
 			act.ShouldThrow<ValidationException>();
@@ -143,10 +142,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.FirstName = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = () => mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 
 		[Test]
@@ -158,10 +157,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.LastName = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 	}
 }
