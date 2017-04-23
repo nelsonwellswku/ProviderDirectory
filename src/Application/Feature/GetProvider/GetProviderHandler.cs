@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using FluentValidation;
 using Marten;
 using Marten.Services.Includes;
@@ -30,7 +32,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 		}
 	}
 
-	public class GetProviderHandler : IRequestHandler<GetProviderQuery, ProviderResponse>
+	public class GetProviderHandler : ICancellableAsyncRequestHandler<GetProviderQuery, ProviderResponse>
 	{
 		private readonly IDocumentSession _session;
 
@@ -39,12 +41,12 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 			_session = session;
 		}
 
-		public ProviderResponse Handle(GetProviderQuery message)
+		public async Task<ProviderResponse> Handle(GetProviderQuery message, CancellationToken cancellationToken)
 		{
 			Taxonomy primaryTaxonomy = null;
-			var provider = _session.Query<Provider>()
+			var provider = await _session.Query<Provider>()
 					.Include<Taxonomy>(p => p.PrimaryTaxonomyId, t => primaryTaxonomy = t, JoinType.LeftOuter)
-					.Single(x => x.ProviderId == message.ProviderId);
+					.SingleAsync(x => x.ProviderId == message.ProviderId, cancellationToken);
 
 			return new ProviderResponse
 			{
@@ -80,7 +82,7 @@ namespace Octogami.ProviderDirectory.Application.Feature.GetProvider
 			};
 		}
 
-		private TaxonomyResponse Map(Taxonomy taxonomy)
+		private static TaxonomyResponse Map(Taxonomy taxonomy)
 		{
 			return new TaxonomyResponse
 			{

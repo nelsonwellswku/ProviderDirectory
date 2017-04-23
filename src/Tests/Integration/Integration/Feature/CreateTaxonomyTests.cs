@@ -72,15 +72,15 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void CanNotCreateTaxonomiesWithDuplicateCodes()
+		public async Task CanNotCreateTaxonomiesWithDuplicateCodes()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
 			var command = new CreateTaxonomyCommand {TaxonomyCode = "ABC"};
-			mediator.Send(command);
+			await mediator.Send(command);
 
 			// Act
-			Func<Task> func = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
 			func.ShouldThrow<ValidationException>().And.Message.Contains("duplicate taxonomy code").Should().BeTrue();
