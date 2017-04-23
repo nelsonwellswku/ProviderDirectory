@@ -118,7 +118,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void DuplicateNPI_FailsValidation()
+		public async Task DuplicateNPI_FailsValidation()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
@@ -126,7 +126,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.NPI = "QWERTY";
 
 			// Act
-			mediator.Send(command);
+			await mediator.Send(command);
 			Func<Task> act = async () => await mediator.Send(command);
 
 			// Assert

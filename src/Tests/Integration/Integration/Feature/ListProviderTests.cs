@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Bogus;
 using FluentAssertions;
@@ -20,7 +21,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		private IContainer _container;
 
 		[OneTimeSetUp]
-		public void SetUpFixture()
+		public async Task SetUpFixture()
 		{
 			var container = TestContainerFactory.New();
 			var documentStore = container.GetInstance<IDocumentStore>();
@@ -53,7 +54,7 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			{
 				var command = commands.Generate();
 				command.FirstName = command.FirstName + num;
-				createProvider.Handle(command);
+				await createProvider.Handle(command, CancellationToken.None);
 			}
 		}
 
