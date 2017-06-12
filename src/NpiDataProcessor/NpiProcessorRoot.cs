@@ -40,9 +40,7 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 					.Select(ToCreateTaxonomyCommand);
 
 				foreach (var command in createCommands)
-				{
 					await _mediator.Send(command);
-				}
 			}
 
 			Console.WriteLine("Taxonomies imported.");
@@ -60,9 +58,13 @@ namespace Octogami.ProviderDirectory.NpiDataProcessor
 					.Take(MaxRecordsToImport)
 					.Select(ToCreateProviderCommand);
 
-				foreach (var command in createCommands)
+				foreach (var item in createCommands.Select((cmd, index) => new {cmd, index}))
 				{
-					await _mediator.Send(command);
+					if (item.index > 0 && item.index % 1000 == 0)
+					{
+						Console.WriteLine($"Processing provider #{item.index}");
+					}
+					await _mediator.Send(item.cmd);
 				}
 			}
 
