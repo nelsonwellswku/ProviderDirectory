@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using FluentValidation;
 using Marten;
@@ -8,6 +10,7 @@ using Octogami.ProviderDirectory.Application.Domain;
 using Octogami.ProviderDirectory.Application.Feature.CreateProvider;
 using Octogami.ProviderDirectory.Tests.Integration.TestSupport;
 using StructureMap;
+using Address = Octogami.ProviderDirectory.Application.Feature.CreateProvider.Address;
 
 namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 {
@@ -15,11 +18,38 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 	{
 		private IContainer _container;
 
+		private static CreateProviderCommand ValidCommand => new CreateProviderCommand
+		{
+			NPI = "ABC123",
+			EntityType = "individual",
+			EnumerationDate = "10/31/2015",
+			FirstName = "John",
+			LastName = "Smith",
+			Gender = "male",
+			MailingAddress = new Address
+			{
+				StreetOne = "100 Old Hickory Blvd.",
+				StreetTwo = "Suite 250.",
+				State = "TN",
+				City = "Nashville",
+				Zip = "37200"
+			},
+			PracticeAddress = new Address
+			{
+				StreetOne = "425 Peachtree Ave",
+				StreetTwo = "Suite 1000",
+				State = "TN",
+				City = "Nashville",
+				Zip = "37211"
+			}
+		};
+
 		[OneTimeSetUp]
 		public void SetUpFixture()
 		{
 			var container = TestContainerFactory.New();
 			var documentStore = container.GetInstance<IDocumentStore>();
+			documentStore.Advanced.PrecompileAllStorage();
 			documentStore.Advanced.Clean.DeleteDocumentsFor(typeof(Provider));
 		}
 
@@ -36,19 +66,40 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 		}
 
 		[Test]
-		public void CanCreateProvider_HappyPath()
+		public async Task CanCreateProvider_HappyPath()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
 			var command = ValidCommand;
 
 			// Act
-			var response = mediator.Send(command);
+			var response = await mediator.Send(command);
 
 			// Assert
 			Assert.AreNotEqual(default(Guid), response.ProviderId);
 
-			// TODO: Once implemented, use get provider query to assert that everything was saved correctly
+			var createdProvider =
+				_container.GetInstance<IDocumentSession>()
+					.Query<Provider>()
+					.First(x => x.ProviderId == response.ProviderId);
+
+			createdProvider.NPI.Should().Be(ValidCommand.NPI);
+			createdProvider.FirstName.Should().Be(ValidCommand.FirstName);
+			createdProvider.LastName.Should().Be(ValidCommand.LastName);
+
+			createdProvider.MailingAddress.StreetOne.Should().Be(ValidCommand.MailingAddress.StreetOne);
+			createdProvider.MailingAddress.StreetTwo.Should().Be(ValidCommand.MailingAddress.StreetTwo);
+			createdProvider.MailingAddress.City.Should().Be(ValidCommand.MailingAddress.City);
+			createdProvider.MailingAddress.State.Abbreviation.Should().Be("TN");
+			createdProvider.MailingAddress.State.Name.Should().Be("Tennessee");
+			createdProvider.MailingAddress.Zip.Should().Be(ValidCommand.MailingAddress.Zip);
+
+			createdProvider.PracticeAddress.StreetOne.Should().Be(ValidCommand.PracticeAddress.StreetOne);
+			createdProvider.PracticeAddress.StreetTwo.Should().Be(ValidCommand.PracticeAddress.StreetTwo);
+			createdProvider.PracticeAddress.City.Should().Be(ValidCommand.PracticeAddress.City);
+			createdProvider.PracticeAddress.State.Abbreviation.Should().Be("TN");
+			createdProvider.PracticeAddress.State.Name.Should().Be("Tennessee");
+			createdProvider.PracticeAddress.Zip.Should().Be(ValidCommand.PracticeAddress.Zip);
 		}
 
 		[Test]
@@ -60,14 +111,14 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.NPI = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 
 		[Test]
-		public void DuplicateNPI_FailsValidation()
+		public async Task DuplicateNPI_FailsValidation()
 		{
 			// Arrange
 			var mediator = _container.GetInstance<IMediator>();
@@ -75,8 +126,8 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.NPI = "QWERTY";
 
 			// Act
-			mediator.Send(command);
-			Action act = () => mediator.Send(command);
+			await mediator.Send(command);
+			Func<Task> act = async () => await mediator.Send(command);
 
 			// Assert
 			act.ShouldThrow<ValidationException>();
@@ -91,10 +142,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.FirstName = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = () => mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
 
 		[Test]
@@ -106,22 +157,10 @@ namespace Octogami.ProviderDirectory.Tests.Integration.Feature
 			command.LastName = string.Empty;
 
 			// Act
-			Action act = () => mediator.Send(command);
+			Func<Task> func = async () => await mediator.Send(command);
 
 			// Assert
-			act.ShouldThrow<ValidationException>();
+			func.ShouldThrow<ValidationException>();
 		}
-
-		private static CreateProviderCommand ValidCommand => new CreateProviderCommand
-		{
-			NPI = "ABC123",
-			FirstName = "John",
-			LastName = "Smith",
-			AddressLineOne = "100 Old Hickory Blvd.",
-			AddressLineTwo = "Apt A.",
-			State = "TN",
-			City = "Nashville",
-			Zip = "37200"
-		};
 	}
 }

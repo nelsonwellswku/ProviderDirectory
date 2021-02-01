@@ -1,0 +1,30 @@
+<div>
+    <h2>Providers</h2>
+
+    <table class="table table-hover">
+        <thead class="thead-default">
+            <tr>
+                <th>NPI</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let provider of providers; let i = index">
+                <td>
+                    <a routerLink="/providers/{{provider.providerId}}">
+                    {{provider.npi}}
+                </a>
+                </td>
+                <td>
+                    <a routerLink="/providers/{{provider.providerId}}">
+                    {{provider.firstName}} {{provider.lastName}}
+                </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="pagedResult">
+        <app-pages [pagedResult]="pagedResult" [url]="pagingUrl"></app-pages>
+    </div>
+</div>

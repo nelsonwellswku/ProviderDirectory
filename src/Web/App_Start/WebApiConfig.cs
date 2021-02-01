@@ -9,7 +9,7 @@ namespace Octogami.ProviderDirectory.Web
         {
             // Web API configuration and services
 
-	        var cors = new EnableCorsAttribute("http://localhost:3000", "*", "*");
+	        var cors = new EnableCorsAttribute("http://localhost:3000,http://localhost:4200", "*", "*");
 	        config.EnableCors(cors);
 
             // Web API routes
